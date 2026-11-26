@@ -96,6 +96,10 @@
   .levels[hidden]{display:none}
   .tag{position:absolute;top:22px;left:22px;font-size:12px;letter-spacing:.06em;color:var(--star)}
   .drinks{list-style:none;padding:0;display:grid;gap:8px}
+  .drinks[hidden]{display:none}
+  .menutabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;border:1.5px solid rgba(236,233,211,.3);margin-bottom:14px}
+  .menutabs button{min-height:40px;padding:0 20px;border:0;border-radius:999px;background:none;color:inherit;font:700 13px/1 var(--mono);cursor:pointer;touch-action:manipulation}
+  .menutabs [aria-selected="true"]{background:var(--cream);color:var(--deep)}
   .drink{width:100%;display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:14px;padding:10px 16px 10px 10px;border-radius:18px;border:1.5px solid rgba(236,233,211,.18);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background-color .2s,border-color .2s}
   .drink:hover{border-color:rgba(236,233,211,.5)}
   .drink[aria-pressed="true"]{background:var(--cream);color:var(--deep);border-color:var(--cream)}
@@ -292,7 +296,7 @@ document.addEventListener('click', function (e) {
   <section class="menu" id="menu" aria-labelledby="menu-title">
     <div class="menu-head">
       <h2 id="menu-title">matcha series</h2>
-      <p>Tap a drink to see it. <span class="star">★</span> marks the best seller.</p>
+      <p>Two menus, prices as printed on each. Tap a drink to see it. <span class="star">★</span> marks the best seller.</p>
     </div>
     <div class="switch">
       <div class="show" aria-live="polite">
@@ -308,7 +312,22 @@ document.addEventListener('click', function (e) {
         </div>
       </div>
       <div>
-        <ul class="drinks" id="drinks">
+        <div class="menutabs" role="tablist" aria-label="Menus">
+          <button type="button" role="tab" id="tab1" aria-controls="drinks1" aria-selected="false">Menu 1</button>
+          <button type="button" role="tab" id="tab2" aria-controls="drinks2" aria-selected="true">Menu 2</button>
+        </div>
+        <ul class="drinks" id="drinks1" role="tabpanel" aria-labelledby="tab1" data-extra="additional matcha +30 per gram" hidden>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="classic-hd" data-tag="★ best seller"><span class="th"><img src="assets/cups/classic-hd.webp" width="640" height="678" alt="" loading="lazy"></span><span><b>matcha latte <span class="star" aria-label="best seller">★</span></b></span><span class="pr">220</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></span><span><b>sea salt matcha</b></span><span class="pr">235</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="earl-grey"><span class="th"><img src="assets/cups/earl-grey.webp" width="223" height="236" alt="" loading="lazy"></span><span><b>earl grey matcha</b></span><span class="pr">235</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="cream-cheese" data-tag="★ best seller"><span class="th"><img src="assets/cups/cream-cheese.webp" width="215" height="236" alt="" loading="lazy"></span><span><b>cream cheese matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">240</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="strawberry"><span class="th"><img src="assets/cups/strawberry.webp" width="209" height="233" alt="" loading="lazy"></span><span><b>strawberry matcha</b></span><span class="pr">240</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="strawberry-cloud"><span class="th"><img src="assets/cups/strawberry-cloud.webp" width="181" height="212" alt="" loading="lazy"></span><span><b>strawberry cloud matcha</b></span><span class="pr">250</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="signature" data-tag="★ best seller"><span class="th"><img src="assets/cups/signature.webp" width="193" height="204" alt="" loading="lazy"></span><span><b>signature matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">240</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="black-sesame" data-tag="★ best seller"><span class="th"><img src="assets/cups/black-sesame.webp" width="190" height="207" alt="" loading="lazy"></span><span><b>black sesame matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">250</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="banana-pudding" data-tag="★ best seller"><span class="th"><img src="assets/cups/banana-pudding.webp" width="179" height="235" alt="" loading="lazy"></span><span><b>banana pudding matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">275</span></button></li>
+        </ul>
+        <ul class="drinks" id="drinks2" role="tabpanel" aria-labelledby="tab2" data-extra="additional matcha +35 per gram">
           <li><button class="drink" type="button" aria-pressed="true" data-img="classic-hd" data-levels="1"><span class="th"><img src="assets/cups/classic-hd.webp" width="640" height="678" alt="" loading="lazy"></span><span><b>classic latte</b><small>level 1, level 2, blend 03, okumidori</small></span><span class="pr">240</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></span><b>sea salt matcha</b><span class="pr">260</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="cream-cheese"><span class="th"><img src="assets/cups/cream-cheese.webp" width="215" height="236" alt="" loading="lazy"></span><b>cream cheese matcha</b><span class="pr">265</span></button></li>
@@ -317,7 +336,7 @@ document.addEventListener('click', function (e) {
           <li><button class="drink" type="button" aria-pressed="false" data-img="toasted-milk" data-tag="★ best seller"><span class="th"><img src="assets/cups/toasted-milk.webp" width="215" height="228" alt="" loading="lazy"></span><span><b>toasted milk matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">260</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="kinako" data-tag="👍 recommended"><span class="th"><img src="assets/cups/kinako.webp" width="211" height="243" alt="" loading="lazy"></span><span><b>kinako cream matcha <span aria-label="recommended">👍</span></b></span><span class="pr">280</span></button></li>
         </ul>
-        <p class="pill">additional matcha +35 per gram</p>
+        <p class="pill" id="extra">additional matcha +35 per gram</p>
       </div>
     </div>
   </section>
@@ -514,15 +533,14 @@ document.addEventListener('click', function (e) {
   addEventListener("resize", () => { last = -1; onScroll(); });
   frame();
 
-  // ---- drink switcher
-  const list = document.getElementById("drinks");
+  // ---- drink switcher (two menus as tabs)
+  const sw = document.querySelector(".switch");
   const $ = id => document.getElementById(id);
-  list.addEventListener("click", e => {
-    const b = e.target.closest(".drink"); if (!b || b.getAttribute("aria-pressed") === "true") return;
+  function pick(b, animate = true) {
     const name = b.querySelector("b").firstChild.textContent.trim();
     const price = b.querySelector(".pr").textContent;
     const update = () => {
-      list.querySelectorAll(".drink").forEach(d => d.setAttribute("aria-pressed", d === b));
+      sw.querySelectorAll(".drink").forEach(d => d.setAttribute("aria-pressed", d === b));
       $("showCup").innerHTML = `<img src="assets/cups/${b.dataset.img}.webp" alt="${name}">`;
       $("showName").textContent = name.replace(/ matcha$/, "");
       $("showTitle").textContent = name;
@@ -530,7 +548,27 @@ document.addEventListener('click', function (e) {
       $("showLevels").hidden = !b.dataset.levels;
       $("showTag").hidden = !b.dataset.tag; $("showTag").textContent = b.dataset.tag || "";
     };
-    if (document.startViewTransition && !reduce) document.startViewTransition(update); else update();
+    if (animate && document.startViewTransition && !reduce) document.startViewTransition(update); else update();
+  }
+  sw.addEventListener("click", e => {
+    const tab = e.target.closest('[role="tab"]');
+    if (tab) {
+      if (tab.getAttribute("aria-selected") === "true") return;
+      sw.querySelectorAll('[role="tab"]').forEach(t => t.setAttribute("aria-selected", t === tab));
+      sw.querySelectorAll('[role="tabpanel"]').forEach(p => { p.hidden = p.id !== tab.getAttribute("aria-controls"); });
+      const panel = $(tab.getAttribute("aria-controls"));
+      $("extra").textContent = panel.dataset.extra;
+      pick(panel.querySelector(".drink"));
+      return;
+    }
+    const b = e.target.closest(".drink"); if (!b || b.getAttribute("aria-pressed") === "true") return;
+    pick(b);
+  });
+  // arrow keys move between the two tabs
+  sw.querySelector(".menutabs").addEventListener("keydown", e => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const tabs = [...sw.querySelectorAll('[role="tab"]')], i = tabs.indexOf(document.activeElement);
+    const t = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length]; t.focus(); t.click();
   });
 })();
 </script>
