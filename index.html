@@ -50,7 +50,8 @@
   @media (max-width:720px){.top nav a:not(.btn){display:none}}
 
   /* ---------- HERO: the pour (Ken's Flow clip, scrubbed by scroll) ---------- */
-  .pour{position:relative;background:linear-gradient(180deg,#0E2A12 0%,#1B4A22 45%,#2F6636 80%,#3B7542 100%)}
+  .pour{position:relative;background:linear-gradient(180deg,#0E2A12 0%,#1B4A22 45%,#2A5F32 80%,var(--green) 100%)}
+  .stage::after{content:"";position:absolute;inset:auto 0 0;height:26%;z-index:3;pointer-events:none;background:linear-gradient(180deg,rgba(35,100,48,0),var(--green))}
   .stage{position:relative;height:100svh;min-height:560px;overflow:hidden}
   .film{position:absolute;z-index:1;top:0;height:100%;aspect-ratio:16/9;left:68%;transform:translate3d(-50%,calc(var(--drift,0)*-3svh),0);
     -webkit-mask:radial-gradient(ellipse 46% 58% at 50% 56%,#000 52%,transparent 100%);mask:radial-gradient(ellipse 46% 58% at 50% 56%,#000 52%,transparent 100%)}
@@ -174,16 +175,17 @@
   @media (max-width:760px){.bday{grid-template-columns:110px minmax(0,1fr);padding:14px}.bday .btn{grid-column:1/-1}}
 
   /* ---------- CLOSE ---------- */
-  .close{position:relative;background:#1C5326;padding:140px var(--pad) 130px;overflow:hidden;isolation:isolate}
-  .close::before{content:"";position:absolute;inset:0;z-index:-1;background:url(assets/close-cup-1376.webp) 100% 50%/cover no-repeat;
-    -webkit-mask:linear-gradient(90deg,transparent 18%,#000 55%);mask:linear-gradient(90deg,transparent 18%,#000 55%)}
+  .close{position:relative;background:#143A20;padding:140px var(--pad) 130px;overflow:hidden;isolation:isolate}
+  .close::before{content:"";position:absolute;inset:0;z-index:-2;background:url(assets/close-cup-1376.webp) 100% 50%/cover no-repeat}
+  .close::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(23,63,32,0) 70%,var(--deep) 100%)}
   .close h2{font-size:clamp(4rem,8.6vw,8.6rem);line-height:.82}
   .close h2 i{display:block}
   .close p{margin:26px 0 30px;max-width:36ch;color:var(--ink-soft)}
   .close .acts{display:flex;flex-wrap:wrap;gap:10px}
   @media (max-width:720px){
-    .close{text-align:center;padding-bottom:62vw}
-    .close::before{background:url(assets/close-cup-800.webp) 70% 100%/auto 64vw no-repeat;-webkit-mask:radial-gradient(ellipse 62% 40% at 64% 82%,#000 55%,transparent 100%);mask:radial-gradient(ellipse 62% 40% at 64% 82%,#000 55%,transparent 100%)}
+    .close{text-align:center}
+    .close{background:#163C24;padding-bottom:78vw}
+    .close::before{inset:auto 0 0;height:88vw;background:url(assets/close-cup-800.webp) 72% 100%/cover no-repeat;-webkit-mask:linear-gradient(180deg,transparent 0%,#000 38%);mask:linear-gradient(180deg,transparent 0%,#000 38%)}
     .close p{margin-inline:auto}.close .acts{justify-content:center}
   }
   .close .mail{display:block;margin-top:26px;font-size:14px}
@@ -305,7 +307,7 @@ document.addEventListener('click', function (e) {
         <div class="levels" id="showLevels">
           <span>level 1</span><b>240</b><span>level 2</span><b>260</b><span>blend 03</span><b>270</b><span>okumidori</span><b>280</b>
         </div>
-        <div class="show-cup" id="showCup"><img src="assets/cups/classic-hd.webp" width="640" height="678" alt="Classic matcha latte"></div>
+        <div class="show-cup" id="showCup"><img src="assets/cups/classic-real.webp" width="395" height="436" alt="Classic matcha latte"></div>
         <div class="show-info">
           <h3 id="showTitle">classic latte</h3>
           <span class="show-price" id="showPrice">₱240</span>
@@ -317,7 +319,7 @@ document.addEventListener('click', function (e) {
           <button type="button" role="tab" id="tab2" aria-controls="drinks2" aria-selected="true">Menu 2</button>
         </div>
         <ul class="drinks" id="drinks1" role="tabpanel" aria-labelledby="tab1" data-extra="additional matcha +30 per gram" hidden>
-          <li><button class="drink" type="button" aria-pressed="false" data-img="classic-hd" data-tag="★ best seller"><span class="th"><img src="assets/cups/classic-hd.webp" width="640" height="678" alt="" loading="lazy"></span><span><b>matcha latte <span class="star" aria-label="best seller">★</span></b></span><span class="pr">220</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="matcha-latte" data-tag="★ best seller"><span class="th"><img src="assets/cups/matcha-latte.webp" width="185" height="190" alt="" loading="lazy"></span><span><b>matcha latte <span class="star" aria-label="best seller">★</span></b></span><span class="pr">220</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></span><span><b>sea salt matcha</b></span><span class="pr">235</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="earl-grey"><span class="th"><img src="assets/cups/earl-grey.webp" width="223" height="236" alt="" loading="lazy"></span><span><b>earl grey matcha</b></span><span class="pr">235</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="cream-cheese" data-tag="★ best seller"><span class="th"><img src="assets/cups/cream-cheese.webp" width="215" height="236" alt="" loading="lazy"></span><span><b>cream cheese matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">240</span></button></li>
@@ -328,7 +330,7 @@ document.addEventListener('click', function (e) {
           <li><button class="drink" type="button" aria-pressed="false" data-img="banana-pudding" data-tag="★ best seller"><span class="th"><img src="assets/cups/banana-pudding.webp" width="179" height="235" alt="" loading="lazy"></span><span><b>banana pudding matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">275</span></button></li>
         </ul>
         <ul class="drinks" id="drinks2" role="tabpanel" aria-labelledby="tab2" data-extra="additional matcha +35 per gram">
-          <li><button class="drink" type="button" aria-pressed="true" data-img="classic-hd" data-levels="1"><span class="th"><img src="assets/cups/classic-hd.webp" width="640" height="678" alt="" loading="lazy"></span><span><b>classic latte</b><small>level 1, level 2, blend 03, okumidori</small></span><span class="pr">240</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="true" data-img="classic-real" data-levels="1"><span class="th"><img src="assets/cups/classic-real.webp" width="395" height="436" alt="" loading="lazy"></span><span><b>classic latte</b><small>level 1, level 2, blend 03, okumidori</small></span><span class="pr">240</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></span><b>sea salt matcha</b><span class="pr">260</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="cream-cheese"><span class="th"><img src="assets/cups/cream-cheese.webp" width="215" height="236" alt="" loading="lazy"></span><b>cream cheese matcha</b><span class="pr">265</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="strawberry"><span class="th"><img src="assets/cups/strawberry.webp" width="209" height="233" alt="" loading="lazy"></span><b>strawberry matcha</b><span class="pr">260</span></button></li>
@@ -485,7 +487,7 @@ document.addEventListener('click', function (e) {
     const span = r.height - innerHeight;
     const p = span > 0 ? clamp(-r.top / span) : 1;
     pour.style.setProperty("--drift", p.toFixed(4));
-    top.classList.toggle("solid", r.bottom < 80 || scrollY > innerHeight * 2.2);
+    top.classList.toggle("solid", r.bottom < innerHeight * 1.02);
     dust.y = scrollY;
     if (reduce || r.bottom < 0) return;
     const i = Math.round(seg(p, .02, .86) * 63), img = seq.frame(i);
