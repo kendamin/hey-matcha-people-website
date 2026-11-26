@@ -175,6 +175,24 @@
   [data-grain]::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.2;mix-blend-mode:multiply;
     background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
 
+
+  /* pop-ups: Davao to GenSan route line drawn by scroll */
+  .pops{position:relative;isolation:isolate}
+  .route{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:visible}
+  .route .faint{fill:none;stroke:rgba(236,233,211,.22);stroke-width:2;stroke-dasharray:2 10;stroke-linecap:round}
+  .route .lit{fill:none;stroke:rgba(156,203,99,.55);stroke-width:3;stroke-linecap:round}
+  .route .pin{transform-box:fill-box;transform-origin:50% 100%;transform:scale(0);transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+  .route .pin.on{transform:scale(1)}
+  .route .pin circle{fill:var(--deep);stroke-width:3}
+  .route .pin.davao circle{stroke:#ECE9D3}.route .pin.gensan circle{stroke:#9CCB63}
+  .route text{font:700 11px var(--mono);letter-spacing:.18em;fill:rgba(236,233,211,.5)}
+  /* birthday: giant outline words drifting with scroll */
+  .bday{overflow:hidden}
+  .drift{position:absolute;left:0;top:50%;z-index:-1;pointer-events:none;white-space:nowrap;
+    font:400 clamp(7rem,20vw,19rem)/1 var(--serif);color:transparent;-webkit-text-stroke:1.5px rgba(35,100,48,.16);
+    transform:translate3d(var(--dx,0px),-50%,0)}
+  @media (prefers-reduced-motion: reduce){.route .pin{transform:scale(1);transition:none}}
+
   /* Message chooser */
   .msg{margin:auto;border:1px solid rgba(30,58,36,.15);padding:0;border-radius:20px;width:min(420px,calc(100dvw - 24px));background:var(--paper);color:var(--ink);box-shadow:0 30px 80px rgba(23,63,32,.35)}
   .msg:modal{overscroll-behavior:contain}
@@ -351,6 +369,7 @@ document.addEventListener('click', function (e) {
   </section>
 
   <section class="pops" id="popups" aria-labelledby="pop-title">
+    <svg class="route" id="route" aria-hidden="true"></svg>
     <div class="pops-side">
       <h2 id="pop-title">Where we've whisked</h2>
       <p>No fixed shop. We pop up around Davao and GenSan, and every schedule goes up on Instagram first.</p>
@@ -367,6 +386,7 @@ document.addEventListener('click', function (e) {
   </section>
 
   <section class="bday" data-grain aria-labelledby="bday-title">
+    <div class="drift" id="drift" aria-hidden="true">whisk · pour · sip · whisk · pour · sip · whisk · pour · sip ·</div>
     <img src="../assets/birthday-640.webp" srcset="../assets/birthday-640.webp 640w, ../assets/birthday-1080.webp 1080w" sizes="(max-width:720px) 92vw, 46vw" width="640" height="800" alt="A birthday matcha drink with sprinkles and a candle, next to a can of Hey Matcha People matcha powder" loading="lazy">
     <div>
       <h2 id="bday-title" class="rise">One year of whisking</h2>
@@ -487,6 +507,51 @@ document.addEventListener('click', function (e) {
     t.addEventListener("click", () => choose(t));
     t.addEventListener("keydown", e => { if (e.key === "ArrowLeft" || e.key === "ArrowRight") { const n = tabs[(i + 1) % tabs.length]; n.focus(); choose(n); } });
   });
+
+  // ---- pop-ups route: dotted Davao/GenSan line, the travelled part lights up as you scroll, pins pop per event
+  const pops = document.getElementById("popups"), route = document.getElementById("route"), NS = "http://www.w3.org/2000/svg";
+  let pts = [], cum = [], lit = null, pins = [];
+  function buildRoute() {
+    const W = pops.clientWidth, H = pops.clientHeight, narrow = W < 820;
+    const cx = narrow ? W - 10 : W * .47, amp = narrow ? 5 : W * .06;
+    const xAt = y => cx + amp * Math.sin(y / H * Math.PI * 3.2);
+    route.setAttribute("viewBox", `0 0 ${W} ${H}`); route.innerHTML = "";
+    pts = []; cum = [0];
+    for (let y = 60; y <= H - 40; y += 8) pts.push([xAt(y), y]);
+    for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+    const d = "M" + pts.map(p => p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" L");
+    const mk = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+    route.append(mk("path", { d, class: "faint" }));
+    lit = mk("path", { d, class: "lit" }); const L = cum[cum.length - 1];
+    lit.style.strokeDasharray = L; lit.style.strokeDashoffset = L; route.append(lit);
+    pins = [];
+    pops.querySelectorAll(".log li").forEach(li => {
+      const y = li.offsetTop + li.offsetHeight / 2, x = xAt(y);
+      const city = /gensan/i.test(li.querySelector(".city").textContent) ? "gensan" : "davao";
+      const g = mk("g", { class: "pin " + city }); g.append(mk("circle", { cx: x, cy: y, r: 7 })); route.append(g);
+      pins.push([y, g]);
+    });
+    if (!narrow) { const t = mk("text", { x: cx + 18, y: 52 }); t.textContent = "DAVAO ↔ GENSAN"; route.append(t); }
+    drawRoute();
+  }
+  function drawRoute() {
+    if (!lit) return;
+    const r = pops.getBoundingClientRect();
+    const y = reduce ? 1e9 : innerHeight * .65 - r.top;            // how far down the section the "traveller" is
+    let i = pts.findIndex(p => p[1] > y); if (i < 0) i = pts.length - 1;
+    const L = cum[cum.length - 1]; lit.style.strokeDashoffset = Math.max(0, L - cum[i]);
+    pins.forEach(([py, g]) => g.classList.toggle("on", py < y));
+  }
+  // ---- birthday: giant outline words drift sideways with scroll
+  const bday = document.querySelector(".bday"), drift = document.getElementById("drift");
+  function drawDrift() {
+    if (reduce) return;
+    const r = bday.getBoundingClientRect(), p = clamp((innerHeight - r.top) / (innerHeight + r.height));
+    drift.style.setProperty("--dx", (-p * 0.45 * drift.scrollWidth + innerWidth * .1).toFixed(1) + "px");
+  }
+  addEventListener("scroll", () => requestAnimationFrame(() => { drawRoute(); drawDrift(); }), { passive: true });
+  new ResizeObserver(buildRoute).observe(pops);
+  drawDrift();
   if (!reduce) story.classList.add("live");
   addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
   addEventListener("resize", frame);
