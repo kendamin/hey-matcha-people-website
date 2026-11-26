@@ -160,6 +160,14 @@
   footer nav{display:flex;gap:18px;flex-wrap:wrap}
   footer .compare{color:#fff;font-weight:700}
 
+
+  /* matcha swirl background video */
+  .swirl{position:relative;isolation:isolate;overflow:hidden}
+  .swirl-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;pointer-events:none}
+  .swirl-wash{position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(ellipse 52% 60% at 50% 50%,rgba(236,233,211,.9) 0%,rgba(236,233,211,.72) 55%,rgba(236,233,211,.35) 100%)}
+  @media (max-width:720px){.swirl-wash{background:radial-gradient(ellipse 90% 60% at 50% 50%,rgba(236,233,211,.9),rgba(236,233,211,.55))}}
+
   /* Message chooser */
   .msg{margin:auto;border:1px solid rgba(30,58,36,.15);padding:0;border-radius:20px;width:min(420px,calc(100dvw - 24px));background:var(--paper);color:var(--ink);box-shadow:0 30px 80px rgba(23,63,32,.35)}
   .msg:modal{overscroll-behavior:contain}
@@ -358,7 +366,8 @@ document.addEventListener('click', function (e) {
     </div>
   </section>
 
-  <section class="close" aria-labelledby="close-title">
+  <section class="close swirl" aria-labelledby="close-title">
+    <video class="swirl-bg" muted loop playsinline preload="none" aria-hidden="true" poster="../assets/swirl-poster.webp" data-d="../assets/swirl-d.mp4" data-m="../assets/swirl-m.mp4"></video><div class="swirl-wash" aria-hidden="true"></div>
     <h2 id="close-title" class="rise">See you,<i>matcha people</i></h2>
     <p>Ask where we're whisking next, or anything about the menu.</p>
     <div class="acts">
@@ -403,6 +412,7 @@ document.addEventListener('click', function (e) {
 
 <script src="../assets/site.js" defer></script>
 <script src="../assets/seq.js"></script>
+<script src="../assets/swirl.js" defer></script>
 <script>
 (() => {
   const story = document.getElementById("story"), top = document.getElementById("top");
