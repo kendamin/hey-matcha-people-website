@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hey Matcha People · it's a matcha state of mind</title>
+<meta name="description" content="Hey Matcha People is a matcha pop-up whisking around Davao and GenSan. Matcha series, hojicha, event exclusives and where we've popped up.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#236430">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/cups/matcha-latte.webp" fetchpriority="high">
+<style>
+  :root{
+    --green:#236430; --deep:#173F20; --night:#0F2A15;
+    --cream:#ECE9D3; --paper:#F5F3E6; --ink:#F4F1E2; --ink-soft:#C9D3BE;
+    --leaf:#1E5A2B; --star:#F2A52B;
+    --serif:"Instrument Serif", "Times New Roman", serif;
+    --mono:"Space Mono", ui-monospace, "Courier New", monospace;
+    --pad:clamp(16px,4vw,48px);
+  }
+  *{box-sizing:border-box;margin:0}
+  html{-webkit-text-size-adjust:100%;color-scheme:dark}
+  body{background:var(--green);color:var(--ink);font:15px/1.6 var(--mono);overflow-x:clip}
+  img{display:block;max-width:100%;height:auto}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:.9;letter-spacing:-.01em;text-wrap:balance}
+  .skip{position:absolute;left:-999px;top:8px;background:var(--cream);color:var(--deep);padding:8px 12px;border-radius:8px;z-index:100}
+  .skip:focus{left:8px}
+  :focus-visible{outline:2px solid var(--star);outline-offset:3px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;font:700 14px/1 var(--mono);letter-spacing:.02em;text-decoration:none;border:1.5px solid currentColor;cursor:pointer;background:none;color:inherit;touch-action:manipulation;transition:background-color .2s,color .2s}
+  .btn-solid{background:var(--cream);color:var(--deep);border-color:var(--cream)}
+  .btn-solid:hover{background:#fff}
+  .btn-line:hover{background:rgba(236,233,211,.12)}
+  .pill{display:inline-block;border:1.5px solid currentColor;border-radius:999px;padding:12px 26px;font-size:14px}
+  .star{color:var(--star)}
+
+  /* header */
+  .top{position:fixed;inset:0 0 auto;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px var(--pad);transition:background-color .3s}
+  .top.solid{background:rgba(23,63,32,.92);backdrop-filter:blur(8px)}
+  .logo{display:grid;text-decoration:none;line-height:.82;font-family:var(--serif);font-size:25px}
+  .logo small{font:700 8px/1 var(--mono);letter-spacing:.2em;margin-left:2px;margin-bottom:2px}
+  .logo i{font-style:italic;padding-left:8px}
+  .top nav{display:flex;align-items:center;gap:22px;font-size:13px}
+  .top nav a:not(.btn){text-decoration:none;opacity:.85}
+  .top nav a:not(.btn):hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+  .top .btn{min-height:40px;padding:0 16px;font-size:13px}
+  @media (max-width:720px){.top nav a:not(.btn){display:none}}
+
+  /* ---------- HERO: the pour ---------- */
+  .pour{position:relative;background:radial-gradient(120% 80% at 50% 38%,#2B7539 0,var(--green) 45%,var(--deep) 100%)}
+  .stage{position:relative;height:100svh;min-height:560px;overflow:hidden;display:grid;place-items:center}
+  .words{position:absolute;inset:0;display:grid;place-content:center start;padding-left:var(--pad);text-align:left;pointer-events:none;
+    transform:translate3d(calc(var(--mx,0)*-14px),calc(var(--drift,0)*-9svh + var(--my,0)*-10px),0)}
+  .words span{display:block}
+  .w1{font-style:italic;font-size:clamp(2.2rem,5vw,4.6rem);margin:0 0 -.08em .12em}
+  .w2{font-size:clamp(7rem,24vw,23rem);line-height:.78;letter-spacing:-.03em;color:#E9ECD6}
+  .w3{font-size:clamp(2.6rem,7.4vw,7rem);margin:.04em 0 0 .08em}
+  .cupwrap{position:absolute;z-index:2;left:72%;top:50%;width:clamp(150px,18vw,230px);margin:-60px 0 0 calc(clamp(150px,18vw,230px)/-2);
+    transform:translate3d(calc(var(--mx,0)*12px),calc(var(--drift,0)*-4svh + var(--my,0)*8px),0) rotate(calc(var(--mx,0)*2deg))}
+  .cupwrap img{width:100%}
+  .cupwrap::after{content:"";position:absolute;left:6%;right:6%;bottom:-14px;height:28px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.38),transparent);z-index:-1}
+  .cup-milk{filter:grayscale(1) brightness(1.42) contrast(.78)}
+  .cup-green{position:absolute;inset:0;clip-path:inset(0 0 calc((1 - var(--fill,1))*100%) 0)}
+  .stream{position:absolute;z-index:-1;left:50%;bottom:90%;width:12px;margin-left:-6px;height:100svh;
+    background:linear-gradient(90deg,#2E7A31,#7BBF45 45%,#3E8F35);border-radius:0 0 8px 8px;
+    clip-path:inset(calc(var(--st,1)*100%) 0 calc((1 - var(--sb,0))*100%) 0)}
+  .splash{position:absolute;z-index:3;left:50%;top:9%;width:0;height:0;opacity:var(--splash,0)}
+  #dust{position:absolute;inset:0;z-index:4;width:100%;height:100%;pointer-events:none}
+  .hero-copy{position:absolute;z-index:5;left:var(--pad);right:var(--pad);bottom:max(26px,env(safe-area-inset-bottom));display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:18px}
+  .hero-copy p{max-width:30ch;font-size:15px}
+  .hero-copy .acts{display:flex;gap:10px;flex-wrap:wrap}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  @media (max-width:720px){
+    .words{place-content:start center;padding:14svh 0 0;text-align:center}
+    .w1,.w3{margin-left:0}
+    .cupwrap{left:50%;top:47svh;width:min(46vw,190px);margin:0 0 0 calc(min(46vw,190px)/-2)}
+    .hero-copy{justify-content:center;text-align:center}
+    .hero-copy p{margin-inline:auto}
+    .hero-copy .acts{justify-content:center;width:100%}
+  }
+
+  /* ---------- MENU: drink switcher ---------- */
+  section{position:relative}
+  .menu{padding:110px var(--pad) 90px;background:var(--green)}
+  .menu-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:40px}
+  .menu-head h2{font-size:clamp(4rem,11vw,9rem)}
+  .menu-head p{max-width:34ch;color:var(--ink-soft)}
+  .switch{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:start}
+  .show{position:sticky;top:80px;min-height:min(72svh,640px);border-radius:28px;background:radial-gradient(90% 70% at 50% 40%,#2F7A3C,var(--deep));overflow:hidden;display:grid;place-items:center;padding:28px}
+  .show-name{position:absolute;inset:auto 0 52% 0;text-align:center;font-family:var(--serif);font-size:clamp(3.4rem,8vw,7.5rem);line-height:.85;color:rgba(236,233,211,.16);pointer-events:none;padding:0 10px;view-transition-name:showname}
+  .show-cup{position:relative;width:min(62%,280px);aspect-ratio:3/4;display:grid;place-items:end center;view-transition-name:showcup}
+  .show-cup img,.show-cup svg{width:100%;height:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 24px 26px rgba(0,0,0,.4))}
+  .show-info{position:absolute;left:24px;right:24px;bottom:20px;display:flex;justify-content:space-between;align-items:end;gap:12px}
+  .show-info h3{font-size:clamp(2rem,4vw,3rem)}
+  .show-price{font-size:clamp(1.4rem,3vw,2rem);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .levels{position:absolute;top:22px;right:22px;display:grid;grid-template-columns:auto auto;gap:2px 18px;font-size:13px;font-variant-numeric:tabular-nums}
+  .levels[hidden]{display:none}
+  .tag{position:absolute;top:22px;left:22px;font-size:12px;letter-spacing:.06em;color:var(--star)}
+  .drinks{list-style:none;padding:0;display:grid;gap:8px}
+  .drink{width:100%;display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:14px;padding:10px 16px 10px 10px;border-radius:18px;border:1.5px solid rgba(236,233,211,.18);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background-color .2s,border-color .2s}
+  .drink:hover{border-color:rgba(236,233,211,.5)}
+  .drink[aria-pressed="true"]{background:var(--cream);color:var(--deep);border-color:var(--cream)}
+  .drink .th{width:56px;height:64px;display:grid;place-items:end center}
+  .drink .th img,.drink .th svg{max-height:64px;width:auto}
+  .drink b{font-weight:700;font-size:15px}
+  .drink small{display:block;font-size:12px;opacity:.75}
+  .drink .pr{font-weight:700;font-variant-numeric:tabular-nums}
+  .menu .pill{margin-top:22px}
+  @media (max-width:820px){
+    .switch{grid-template-columns:1fr}
+    .show{top:64px;z-index:5;min-height:0;height:196px;padding:0;border-radius:22px;display:block}
+    .show-cup{position:absolute;left:14px;bottom:12px;width:108px;height:160px}
+    .show-name{display:none}
+    .show-info{left:140px;right:16px;top:20px;bottom:auto;display:grid;gap:4px;justify-content:start}
+    .show-info h3{font-size:1.9rem}
+    .show-price{font-size:1.25rem}
+    .levels{top:auto;bottom:16px;left:140px;right:auto;font-size:12px;gap:0 14px}
+    .tag{top:auto;bottom:16px;left:140px;right:auto}
+  }
+  /* ---------- HOJICHA ---------- */
+  .hoji{background:var(--cream);color:var(--leaf);padding:110px var(--pad);text-align:center;color-scheme:light}
+  .hoji h2{font-size:clamp(4.4rem,12vw,9.5rem)}
+  .callouts{position:relative;max-width:900px;margin:30px auto 0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:0}
+  .callouts .roast{font-size:clamp(13px,1.8vw,17px);font-weight:700;display:flex;align-items:center;gap:12px}
+  .callouts .roast span{white-space:nowrap}
+  .callouts .roast.l{justify-content:flex-end;align-self:start;margin-top:30%}
+  .callouts .roast.r{align-self:center;margin-top:16%}
+  .callouts .line{height:1.5px;width:clamp(30px,10vw,120px);background:currentColor;transform-origin:var(--o,left);position:relative}
+  .callouts .line::after{content:"";position:absolute;top:-3px;width:7px;height:7px;border-radius:50%;background:currentColor}
+  .roast.l .line{--o:right}.roast.l .line::after{left:-3px}.roast.r .line::after{right:-3px}
+  .hcup{width:clamp(150px,26vw,280px)}
+  .hoji h3{font-family:var(--mono);font-weight:700;font-size:clamp(1.3rem,3vw,2rem);letter-spacing:.06em;margin-top:22px;line-height:1.2}
+  .addons{max-width:720px;margin:44px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 40px;text-align:left;font-size:clamp(14px,2vw,18px);font-weight:700;list-style:none;padding:0}
+  .addons li{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(30,90,43,.35);padding:8px 0;font-variant-numeric:tabular-nums}
+  .hoji .pill{margin-top:40px}
+  .hoji .lede{max-width:44ch;margin:16px auto 0;font-size:14px;opacity:.8}
+  @media (max-width:560px){.addons{grid-template-columns:1fr}.callouts{grid-template-columns:1fr 1fr;row-gap:18px}.hcup{grid-column:1/-1;order:-1;justify-self:center;width:170px}.callouts .roast.l,.callouts .roast.r{margin:0;justify-content:center;text-align:center}.callouts .line{display:none}}
+
+  /* ---------- EVENT EXCLUSIVES ---------- */
+  .specials{background:var(--night);padding:110px var(--pad);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:start}
+  .specials figure{position:sticky;top:90px;border-radius:26px;overflow:hidden}
+  .specials figure img{width:100%;aspect-ratio:4/5;object-fit:cover}
+  .specials h2{font-size:clamp(3.4rem,8vw,7rem);margin-bottom:24px}
+  .specials .intro{color:var(--ink-soft);max-width:44ch;margin-bottom:46px}
+  .ex{border-top:1px solid rgba(236,233,211,.2);padding:26px 0 34px;display:grid;grid-template-columns:minmax(0,1fr) 140px;gap:20px;align-items:start}
+  .ex h3{font-size:clamp(2.2rem,4.5vw,3.4rem);margin-bottom:10px}
+  .ex p{color:var(--ink-soft);font-size:14px}
+  .ex .when{display:block;margin-top:10px;font-size:12px;letter-spacing:.06em;color:var(--star)}
+  .ex img{border-radius:14px;aspect-ratio:4/5;object-fit:cover;width:140px}
+  @media (max-width:820px){.specials{grid-template-columns:1fr}.specials figure{position:relative;top:0}.ex{grid-template-columns:minmax(0,1fr) 104px}.ex img{width:104px}}
+
+  /* ---------- POP-UPS ---------- */
+  .popups{background:var(--paper);color:var(--deep);padding:110px 0 100px;color-scheme:light}
+  .popups-head{padding:0 var(--pad);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px;margin-bottom:40px}
+  .popups h2{font-size:clamp(3.6rem,9vw,8rem)}
+  .popups-head p{max-width:36ch}
+  .tickets{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px var(--pad) 26px;scroll-padding-inline:var(--pad);list-style:none;scrollbar-width:thin}
+  .ticket{flex:0 0 min(300px,78vw);scroll-snap-align:start;background:var(--cream);border-radius:18px;padding:22px 22px 24px;position:relative;
+    -webkit-mask:radial-gradient(circle 10px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 10px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat;
+            mask:radial-gradient(circle 10px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 10px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat}
+  .ticket .city{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--green)}
+  .ticket h3{font-size:2.1rem;margin:10px 0 8px;line-height:.95}
+  .ticket p{font-size:13px}
+  .ticket .date{position:absolute;left:22px;right:22px;top:62%;padding-top:14px;border-top:1.5px dashed rgba(23,63,32,.3);font-weight:700;font-variant-numeric:tabular-nums}
+  .ticket{min-height:300px}
+  .ticket .date small{display:block;font-weight:400;font-size:12px}
+  .bday{margin:40px var(--pad) 0;display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:28px;align-items:center;background:var(--green);color:var(--ink);border-radius:26px;padding:18px 28px 18px 18px}
+  .bday img{border-radius:16px;aspect-ratio:4/5;object-fit:cover}
+  .bday h3{font-size:clamp(2.2rem,4.6vw,3.6rem);margin-bottom:10px}
+  .bday p{color:var(--ink-soft);max-width:46ch}
+  @media (max-width:760px){.bday{grid-template-columns:110px minmax(0,1fr);padding:14px}.bday .btn{grid-column:1/-1}}
+
+  /* ---------- CLOSE ---------- */
+  .close{background:var(--green);padding:130px var(--pad) 120px;text-align:center;overflow:hidden}
+  .close h2{font-size:clamp(4.2rem,14vw,13rem);line-height:.82}
+  .close h2 i{display:block}
+  .close p{margin:26px auto 30px;max-width:40ch;color:var(--ink-soft)}
+  .close .acts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .close .mail{display:block;margin-top:26px;font-size:14px}
+
+  footer{background:var(--deep);padding:40px var(--pad) max(40px,env(safe-area-inset-bottom));font-size:13px;color:var(--ink-soft)}
+  footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center;margin-bottom:14px}
+  footer nav{display:flex;gap:18px;flex-wrap:wrap}
+  footer .compare{color:var(--ink);font-weight:700}
+
+  /* ---------- Message chooser ---------- */
+  .msg{margin:auto;border:1px solid rgba(236,233,211,.2);padding:0;border-radius:20px;width:min(420px,calc(100dvw - 24px));background:var(--deep);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .msg:modal{overscroll-behavior:contain}
+  .msg::backdrop{background:rgba(8,20,10,.72);overflow:hidden;overscroll-behavior:contain}
+  .msg-inner{padding:24px 22px 22px;display:grid;gap:10px}
+  .msg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px}
+  .msg h2{font-size:34px}
+  .msg-head p{color:var(--ink-soft);font-size:13px;margin-top:8px}
+  .msg-head form{flex:none}
+  .msg-close{width:40px;height:40px;padding:0;border-radius:50%;border:1px solid rgba(236,233,211,.3);background:none;color:var(--ink);font-size:16px;cursor:pointer}
+  .msg .btn{width:100%}
+  .msg-note{font-size:13px;background:rgba(236,233,211,.08);border-left:3px solid var(--star);border-radius:8px;padding:10px 12px;line-height:1.45;display:grid;gap:4px}
+  .msg-note-small{font-size:12px;color:var(--ink-soft)}
+  .msg [hidden]{display:none}
+  @media (max-width:600px){
+    .msg:modal{margin:auto auto 0;width:100dvw;max-width:100dvw;border-radius:20px 20px 0 0;border-width:1px 0 0}
+    .msg-inner{padding-bottom:max(22px,env(safe-area-inset-bottom))}
+  }
+
+  /* motion only for people who haven't asked to reduce it */
+  @media (prefers-reduced-motion: no-preference){
+    html{scroll-behavior:smooth}
+    .pour.live{height:250svh}
+    .pour.live .stage{position:sticky;top:0}
+    @supports (animation-timeline: view()){
+      .rise{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 45%}
+      @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+      .callouts .line{animation:draw linear both;animation-timeline:view();animation-range:entry 20% cover 45%}
+      @keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    }
+    ::view-transition-old(showcup){animation:cupout .28s ease-in both}
+    ::view-transition-new(showcup){animation:cupin .42s cubic-bezier(.2,.8,.2,1) both}
+    @keyframes cupout{to{transform:translateY(-30px) scale(.92);opacity:0}}
+    @keyframes cupin{from{transform:translateY(46px) scale(.94);opacity:0}}
+  }
+  @media (prefers-reduced-motion: reduce){.stream,.splash,#dust{display:none}}
+</style>
+<!-- GoatCounter: counts visits and Message/Call/Book taps (dashboard: kenabuda.goatcounter.com) -->
+<script data-goatcounter="https://kenabuda.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>
+document.addEventListener('click', function (e) {
+  var el = e.target.closest && e.target.closest('a, button');
+  if (!el || !window.goatcounter || !window.goatcounter.count) return;
+  var href = (el.getAttribute('href') || '').toLowerCase();
+  var text = (el.textContent || '').trim().toLowerCase();
+  var kind =
+    /^fb-messenger:|m\.me\/|messenger\.com/.test(href) ? 'Message' :
+    /^tel:/.test(href) ? 'Call' :
+    /^sms:/.test(href) ? 'Text' :
+    /wa\.me\//.test(href) ? 'WhatsApp' :
+    /google\.[a-z.]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps|maps\.google/.test(href) ? 'Directions' :
+    /shopee\.|lazada\./.test(href) ? 'Shop' :
+    /instagram\.com/.test(href) ? 'Instagram' :
+    /facebook\.com/.test(href) ? 'Facebook' :
+    /book|reserve|trial|inquire|inquiry/.test(text) ? 'Book' :
+    /^message|messenger/.test(text) ? 'Message' : '';
+  if (!kind) return;
+  var site = location.pathname.replace(/index\.html$/, '').replace(/^\/|\/$/g, '') || 'home';
+  var popup = el.closest('dialog') ? ' (popup)' : '';
+  window.goatcounter.count({ path: site + ': ' + kind + popup, title: text.slice(0, 60), event: true });
+}, true);
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top" id="top">
+  <a class="logo" href="#main" aria-label="Hey Matcha People, back to top"><small>HEY</small>Matcha<i>People</i></a>
+  <nav aria-label="Main">
+    <a href="#menu">Menu</a>
+    <a href="#hojicha">Hojicha</a>
+    <a href="#popups">Pop-ups</a>
+    <a class="btn btn-solid" href="https://m.me/heymatchapeople">Message us</a>
+  </nav>
+</header>
+
+<main id="main">
+  <!-- 1. The pour: scroll pours matcha into the cup. Swaps to Ken's Flow pour frames when they arrive. -->
+  <section class="pour" id="pour" aria-labelledby="hero-title">
+    <div class="stage">
+      <h1 class="words" id="hero-title"><span class="w1">it's a</span><span class="w2">matcha</span><span class="w3">state of mind</span></h1>
+      <div class="cupwrap">
+        <div class="stream" aria-hidden="true"></div>
+        <img class="cup-milk" src="assets/cups/matcha-latte.webp" width="186" height="191" alt="" fetchpriority="high">
+        <img class="cup-green" src="assets/cups/matcha-latte.webp" width="186" height="191" alt="An iced matcha latte in a clear Hey Matcha People cup: milk at the bottom, bright green matcha on top">
+        <div class="splash" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <canvas id="dust" aria-hidden="true"></canvas>
+      <div class="hero-copy">
+        <p>A matcha pop-up whisking around Davao and GenSan.</p>
+        <div class="acts">
+          <a class="btn btn-solid" href="#menu">See the menu</a>
+          <a class="btn btn-line" href="https://m.me/heymatchapeople">Message us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Menu: tap a drink, it takes the stage -->
+  <section class="menu" id="menu" aria-labelledby="menu-title">
+    <div class="menu-head">
+      <h2 id="menu-title">matcha series</h2>
+      <p>Tap a drink to see it. <span class="star">★</span> marks the best seller.</p>
+    </div>
+    <div class="switch">
+      <div class="show" aria-live="polite">
+        <span class="show-name" id="showName" aria-hidden="true">classic latte</span>
+        <span class="tag" id="showTag" hidden></span>
+        <div class="levels" id="showLevels">
+          <span>level 1</span><b>240</b><span>level 2</span><b>260</b><span>blend 03</span><b>270</b><span>okumidori</span><b>280</b>
+        </div>
+        <div class="show-cup" id="showCup"><img src="assets/cups/matcha-latte.webp" width="186" height="191" alt="Classic matcha latte"></div>
+        <div class="show-info">
+          <h3 id="showTitle">classic latte</h3>
+          <span class="show-price" id="showPrice">₱240</span>
+        </div>
+      </div>
+      <div>
+        <ul class="drinks" id="drinks">
+          <li><button class="drink" type="button" aria-pressed="true" data-img="matcha-latte" data-levels="1"><span class="th"><img src="assets/cups/matcha-latte.webp" width="186" height="191" alt="" loading="lazy"></span><span><b>classic latte</b><small>level 1, level 2, blend 03, okumidori</small></span><span class="pr">240</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="179" height="199" alt="" loading="lazy"></span><b>sea salt matcha</b><span class="pr">260</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="cream-cheese"><span class="th"><img src="assets/cups/cream-cheese.webp" width="191" height="208" alt="" loading="lazy"></span><b>cream cheese matcha</b><span class="pr">265</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="strawberry"><span class="th"><img src="assets/cups/strawberry.webp" width="192" height="189" alt="" loading="lazy"></span><b>strawberry matcha</b><span class="pr">260</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="earl-grey"><span class="th"><img src="assets/cups/earl-grey.webp" width="196" height="207" alt="" loading="lazy"></span><b>earl grey matcha</b><span class="pr">260</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-svg="toasted" data-tag="★ best seller"><span class="th"><svg viewBox="0 0 120 150" aria-hidden="true"><use href="#cup-toasted"/></svg></span><span><b>toasted milk matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">260</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-svg="kinako" data-tag="👍 recommended"><span class="th"><svg viewBox="0 0 120 150" aria-hidden="true"><use href="#cup-kinako"/></svg></span><span><b>kinako cream matcha <span aria-label="recommended">👍</span></b></span><span class="pr">280</span></button></li>
+        </ul>
+        <p class="pill">additional matcha +35 per gram</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Hojicha, laid out like their own menu card -->
+  <section class="hoji" id="hojicha" aria-labelledby="hoji-title">
+    <h2 id="hoji-title" class="rise">hojicha</h2>
+    <p class="lede">Roasted green tea, two roasts.</p>
+    <div class="callouts">
+      <p class="roast l"><span>medium roast<br>230</span><i class="line" aria-hidden="true"></i></p>
+      <svg class="hcup" viewBox="0 0 120 150" role="img" aria-label="Illustration of an iced hojicha latte"><use href="#cup-hoji"/></svg>
+      <p class="roast r"><i class="line" aria-hidden="true"></i><span>dark roast<br>240</span></p>
+    </div>
+    <h3>hojicha latte</h3>
+    <ul class="addons" aria-label="Add a flavour">
+      <li><span>sea salt</span><span>+20</span></li>
+      <li><span>earl grey</span><span>+20</span></li>
+      <li><span>cream cheese</span><span>+25</span></li>
+      <li><span>toasted milk</span><span>+20</span></li>
+      <li><span>strawberry</span><span>+20</span></li>
+      <li><span>kinako cream</span><span>+40</span></li>
+    </ul>
+    <p class="pill">additional hojicha +30 per gram</p>
+  </section>
+
+  <!-- 4. Event exclusives -->
+  <section class="specials" id="exclusives" aria-labelledby="ex-title">
+    <figure>
+      <img src="assets/ube-lastday-640.webp" srcset="assets/ube-lastday-640.webp 640w, assets/ube-lastday-1080.webp 1080w" sizes="(max-width:820px) 92vw, 46vw" width="640" height="800" alt="Ube Flan Matcha in a frozen bamboo cup on a wooden board, with ube halaya and leche flan beside it, milk being poured in" loading="lazy">
+    </figure>
+    <div>
+      <h2 id="ex-title" class="rise">Made for one event only</h2>
+      <p class="intro rise">Every big pop-up gets its own drink. When it's gone, it's gone (unless enough of you ask).</p>
+      <article class="ex rise">
+        <div>
+          <h3>Ube Flan Matcha</h3>
+          <p>Leche flan cream and ube halaya over matcha, served in a frozen bamboo cup.</p>
+          <span class="when">Davao Matcha Fest, Abreeza · then Gensan Matcha Fest, by request</span>
+        </div>
+        <img src="assets/gensan-ube-3-640.webp" width="640" height="800" alt="Ube Flan Matcha in a Hey Matcha People cup, topped with ube halaya" loading="lazy">
+      </article>
+      <article class="ex rise">
+        <div>
+          <h3>Matcha Taho</h3>
+          <p>A Japanese favorite meets a Filipino street-side classic.</p>
+          <span class="when">12 Days of Hey Market, Abreeza</span>
+        </div>
+        <img src="assets/taho-640.webp" width="640" height="800" alt="Matcha Taho poster: matcha over sago and arnibal in a Hey Matcha People cup" loading="lazy">
+      </article>
+      <article class="ex rise">
+        <div>
+          <h3>Tsokolate Hojicha</h3>
+          <p>Tableya hot chocolate with roasted hojicha, topped with toasted marshmallow.</p>
+          <span class="when">12 Days of Hey Market, Abreeza</span>
+        </div>
+        <img src="assets/tsokolate-640.webp" width="640" height="800" alt="Tsokolate Hojicha poster: a chocolate hojicha drink topped with toasted marshmallows" loading="lazy">
+      </article>
+    </div>
+  </section>
+
+  <!-- 5. Where we've whisked -->
+  <section class="popups" id="popups" aria-labelledby="pop-title">
+    <div class="popups-head">
+      <h2 id="pop-title" class="rise">Where we've whisked</h2>
+      <p>No fixed shop. We pop up around Davao and GenSan and post every schedule on Instagram first.</p>
+    </div>
+    <ol class="tickets" reversed>
+      <li class="ticket"><span class="city">Davao</span><h3>12 Days of Hey Market</h3><p>Abreeza Activity Center</p><p class="date">Nov 14 to 22, 2026<small>10 am to 10 pm</small></p></li>
+      <li class="ticket"><span class="city">Davao</span><h3>Beyond Sips and Bites</h3><p>Stories Studio, 25 Carmen St, Obrero</p><p class="date">Nov 6 to 8, 2026<small>2 pm to 9 pm</small></p></li>
+      <li class="ticket"><span class="city">GenSan</span><h3>Gensan Matcha Fest</h3><p>SM Gensan Atrium</p><p class="date">Oct 29 to Nov 2, 2026</p></li>
+      <li class="ticket"><span class="city">GenSan</span><h3>NDDU Campus</h3><p>Saturday and Sunday</p><p class="date">Oct 17 to 18, 2026</p></li>
+      <li class="ticket"><span class="city">Davao</span><h3>The Tent</h3><p>Azuela Cove, Thursday to Sunday</p><p class="date">Oct 15 to 18, 2026</p></li>
+      <li class="ticket"><span class="city">Davao</span><h3>Davao Matcha Fest</h3><p>Abreeza Ayala Mall</p><p class="date">Sep 30 to Oct 4, 2026<small>10 am to 9 pm</small></p></li>
+    </ol>
+    <div class="bday rise">
+      <img src="assets/birthday-640.webp" width="640" height="800" alt="A birthday matcha drink with sprinkles and a candle, next to a can of Hey Matcha People matcha powder" loading="lazy">
+      <div>
+        <h3>One year of whisking</h3>
+        <p>We turned one on November 7, 2026. Our matcha powder now comes in a can, too.</p>
+      </div>
+      <a class="btn btn-solid" href="https://www.instagram.com/heymatchapeople/" target="_blank" rel="noopener">Follow for the next pop-up</a>
+    </div>
+  </section>
+
+  <!-- 6. Close -->
+  <section class="close" aria-labelledby="close-title">
+    <h2 id="close-title" class="rise">See you,<i>matcha people</i></h2>
+    <p>Ask where we're whisking next, or anything about the menu.</p>
+    <div class="acts">
+      <a class="btn btn-solid" href="https://m.me/heymatchapeople">Message us</a>
+      <a class="btn btn-line" href="https://www.instagram.com/heymatchapeople/" target="_blank" rel="noopener">Instagram</a>
+      <a class="btn btn-line" href="https://www.facebook.com/heymatchapeople" target="_blank" rel="noopener">Facebook</a>
+    </div>
+    <a class="mail" href="mailto:heymatchapeople@gmail.com">heymatchapeople@gmail.com</a>
+  </section>
+</main>
+
+<footer>
+  <div class="row">
+    <span>© 2026 Hey Matcha People · Davao and GenSan</span>
+    <nav aria-label="Footer">
+      <a href="https://www.instagram.com/heymatchapeople/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/heymatchapeople" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.threads.com/@heymatchapeople" target="_blank" rel="noopener">Threads</a>
+      <a class="compare" href="v2/">See Option B →</a>
+    </nav>
+  </div>
+  <p>Concept website. <a href="https://kendamin.github.io/" target="_blank" rel="noopener">Watermark by Ken Abuda</a></p>
+</footer>
+
+<dialog class="msg" id="msgDialog" closedby="any" aria-labelledby="msg-title">
+  <div class="msg-inner">
+    <div class="msg-head">
+      <div><h2 id="msg-title">Message Hey Matcha People</h2><p>Ask where the next pop-up is, or anything about the menu.</p></div>
+      <form method="dialog"><button class="msg-close" aria-label="Close">✕</button></form>
+    </div>
+    <a class="btn btn-solid" id="msgApp" hidden href="fb-messenger://user-thread/61582341034482">Open Messenger app</a>
+    <a class="btn btn-line" href="https://ig.me/m/heymatchapeople" target="_blank" rel="noopener">Message on Instagram</a>
+    <a class="btn btn-line" href="https://m.me/heymatchapeople" target="_blank" rel="noopener">Message on Facebook</a>
+    <a class="btn btn-line" href="mailto:heymatchapeople@gmail.com">Send an email</a>
+    <div class="msg-note" id="msgNote" hidden>
+      <p>See <strong>"Get the Messenger app"</strong>? Tap <strong>Open in Messenger</strong> below it instead.</p>
+      <p class="msg-note-small">Still not opening? Tap <strong>•••</strong> and choose <strong>Open in browser</strong>.</p>
+    </div>
+  </div>
+</dialog>
+
+<!-- Illustrated cups for drinks we don't have a photo of yet (swap for real photos when sent) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="cupclip"><path d="M14 18 H106 L96 140 Q95 146 89 146 H31 Q25 146 24 140 Z"/></clipPath>
+    <g id="cupshell">
+      <path d="M14 18 H106 L96 140 Q95 146 89 146 H31 Q25 146 24 140 Z" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
+      <rect x="8" y="12" width="104" height="8" rx="4" fill="rgba(255,255,255,.35)"/>
+    </g>
+    <g id="cup-toasted"><g clip-path="url(#cupclip)"><rect x="0" y="22" width="120" height="44" fill="#E6D3B0"/><path d="M0 62 Q30 70 60 62 T120 62 V112 H0Z" fill="#5E9B3A"/><path d="M0 108 Q30 116 60 108 T120 108 V150 H0Z" fill="#EFE9D8"/></g><use href="#cupshell"/></g>
+    <g id="cup-kinako"><g clip-path="url(#cupclip)"><rect x="0" y="22" width="120" height="30" fill="#D9BE8E"/><path d="M0 48 Q30 56 60 48 T120 48 V104 H0Z" fill="#3E8435"/><path d="M0 100 Q30 108 60 100 T120 100 V150 H0Z" fill="#F1ECDD"/></g><use href="#cupshell"/></g>
+    <g id="cup-hoji"><g clip-path="url(#cupclip)"><rect x="0" y="22" width="120" height="128" fill="#6E5A45"/><rect x="0" y="22" width="120" height="10" fill="#A58B6C"/><rect x="34" y="30" width="22" height="18" rx="4" fill="rgba(255,255,255,.35)"/><rect x="62" y="26" width="20" height="16" rx="4" fill="rgba(255,255,255,.3)"/></g><path d="M14 18 H106 L96 140 Q95 146 89 146 H31 Q25 146 24 140 Z" fill="none" stroke="rgba(30,90,43,.55)" stroke-width="2"/><rect x="8" y="12" width="104" height="8" rx="4" fill="rgba(30,90,43,.25)"/></g>
+  </defs>
+</svg>
+
+<script src="assets/site.js" defer></script>
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const top = document.getElementById("top");
+
+  // ---- the pour: scroll drives --fill (cup turns green top-down) and the stream
+  const pour = document.getElementById("pour");
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const seg = (p, a, b) => clamp((p - a) / (b - a));
+  let ticking = false;
+  function frame() {
+    ticking = false;
+    const r = pour.getBoundingClientRect();
+    const span = r.height - innerHeight;
+    const p = span > 0 ? clamp(-r.top / span) : 1;
+    const s = pour.style;
+    s.setProperty("--fill", seg(p, .2, .72).toFixed(4));
+    s.setProperty("--sb", seg(p, .06, .24).toFixed(4));       // stream reaches the cup
+    s.setProperty("--st", seg(p, .7, .84).toFixed(4));        // stream tail lifts away
+    const pouring = p > .2 && p < .76;
+    s.setProperty("--splash", pouring ? 1 : 0);
+    s.setProperty("--play", pouring ? "running" : "paused");
+    s.setProperty("--drift", p.toFixed(4));
+    top.classList.toggle("solid", r.bottom < 80 || scrollY > innerHeight * 2.2);
+    dust.y = scrollY;
+  }
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+
+  // ---- matcha dust: a few floating powder specks in front of the cup (foreground plane)
+  const dust = { y: 0 };
+  if (!reduce) {
+    pour.classList.add("live");
+    pour.style.setProperty("--fill", 0);
+    pour.style.setProperty("--st", 0);
+    const c = document.getElementById("dust"), x = c.getContext("2d");
+    let W, H, specks = [], on = false;
+    const size = () => {
+      const d = Math.min(devicePixelRatio || 1, 2);
+      W = c.clientWidth; H = c.clientHeight; c.width = W * d; c.height = H * d; x.setTransform(d, 0, 0, d, 0, 0);
+      specks = Array.from({ length: W < 700 ? 22 : 40 }, () => ({ x: Math.random() * W, y: Math.random() * H * 1.6, r: .8 + Math.random() * 2.4, v: .15 + Math.random() * .35, a: .25 + Math.random() * .5 }));
+    };
+    size(); addEventListener("resize", size);
+    const draw = t => {
+      if (!on) return;
+      x.clearRect(0, 0, W, H);
+      for (const s of specks) {
+        const y = ((s.y - dust.y * s.v * .9 - t * .006 * s.v) % (H * 1.6) + H * 1.6) % (H * 1.6) - H * .3;
+        x.globalAlpha = s.a; x.fillStyle = "#9CCB63";
+        x.beginPath(); x.arc(s.x + Math.sin(t / 2000 + s.y) * 6, y, s.r, 0, 7); x.fill();
+      }
+      requestAnimationFrame(draw);
+    };
+    new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on) requestAnimationFrame(draw); }).observe(pour);
+
+    // pointer depth (desktop only): words drift one way, cup the other
+    if (matchMedia("(hover:hover) and (pointer:fine)").matches) {
+      pour.addEventListener("pointermove", e => {
+        pour.style.setProperty("--mx", (e.clientX / innerWidth - .5).toFixed(3));
+        pour.style.setProperty("--my", (e.clientY / innerHeight - .5).toFixed(3));
+      });
+    }
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+  frame();
+
+  // ---- drink switcher
+  const list = document.getElementById("drinks");
+  const $ = id => document.getElementById(id);
+  list.addEventListener("click", e => {
+    const b = e.target.closest(".drink"); if (!b || b.getAttribute("aria-pressed") === "true") return;
+    const name = b.querySelector("b").firstChild.textContent.trim();
+    const price = b.querySelector(".pr").textContent;
+    const update = () => {
+      list.querySelectorAll(".drink").forEach(d => d.setAttribute("aria-pressed", d === b));
+      $("showCup").innerHTML = b.dataset.img
+        ? `<img src="assets/cups/${b.dataset.img}.webp" alt="${name}">`
+        : `<svg viewBox="0 0 120 150" role="img" aria-label="Illustration of ${name}"><use href="#cup-${b.dataset.svg}"/></svg>`;
+      $("showName").textContent = name.replace(/ matcha$/, "");
+      $("showTitle").textContent = name;
+      $("showPrice").textContent = "₱" + price;
+      $("showLevels").hidden = !b.dataset.levels;
+      $("showTag").hidden = !b.dataset.tag; $("showTag").textContent = b.dataset.tag || "";
+    };
+    if (document.startViewTransition && !reduce) document.startViewTransition(update); else update();
+  });
+})();
+</script>
+</body>
+</html>
