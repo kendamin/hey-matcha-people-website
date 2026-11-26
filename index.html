@@ -195,6 +195,24 @@
   footer nav{display:flex;gap:18px;flex-wrap:wrap}
   footer .compare{color:var(--ink);font-weight:700}
 
+
+  /* ---------- Gen Z layer: matcha lava lamp + grain + ticker ---------- */
+  main{overflow-x:clip}
+  [data-lava]{isolation:isolate}
+  .lava-cv{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+  [data-lava]::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.22;mix-blend-mode:overlay;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .ticker{position:relative;z-index:6;overflow:hidden;background:var(--cream);color:var(--deep);transform:rotate(-2deg);margin:-26px -10px 0;
+    padding:14px 0;border-block:2px solid var(--deep);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .ticker.t2{background:var(--green);color:var(--cream);border-color:var(--cream);transform:rotate(1.6deg);margin:0 -10px -22px}
+  .ticker div{display:flex;width:max-content;animation:tick 32s linear infinite}
+  .ticker.t2 div{animation-direction:reverse;animation-duration:38s}
+  .ticker span{font:700 clamp(15px,2vw,20px)/1 var(--mono);letter-spacing:.04em;white-space:nowrap;padding-right:28px}
+  .ticker i{font-style:normal;color:var(--star);padding:0 4px}
+  .ticker.t2 i{color:#9CCB63}
+  @keyframes tick{to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion: reduce){.ticker div{animation:none}}
+
   /* ---------- Message chooser ---------- */
   .msg{margin:auto;border:1px solid rgba(236,233,211,.2);padding:0;border-radius:20px;width:min(420px,calc(100dvw - 24px));background:var(--deep);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.6)}
   .msg:modal{overscroll-behavior:contain}
@@ -294,8 +312,11 @@ document.addEventListener('click', function (e) {
     </div>
   </section>
 
+  <!-- Gen Z ticker -->
+  <div class="ticker" aria-hidden="true"><div><span>it's a matcha state of mind <i>✦</i></span><span>whisked fresh at every pop-up <i>✦</i></span><span>davao <i>✦</i></span><span>gensan <i>✦</i></span><span>ube flan supremacy <i>✦</i></span><span>see you, matcha people <i>✦</i></span><span>it's a matcha state of mind <i>✦</i></span><span>whisked fresh at every pop-up <i>✦</i></span><span>davao <i>✦</i></span><span>gensan <i>✦</i></span><span>ube flan supremacy <i>✦</i></span><span>see you, matcha people <i>✦</i></span></div></div>
+
   <!-- 2. Menu: tap a drink, it takes the stage -->
-  <section class="menu" id="menu" aria-labelledby="menu-title">
+  <section class="menu" data-lava="green" id="menu" aria-labelledby="menu-title">
     <div class="menu-head">
       <h2 id="menu-title">matcha series</h2>
       <p>Two menus, prices as printed on each. Tap a drink to see it. <span class="star">★</span> marks the best seller.</p>
@@ -344,7 +365,7 @@ document.addEventListener('click', function (e) {
   </section>
 
   <!-- 3. Hojicha, laid out like their own menu card -->
-  <section class="hoji" id="hojicha" aria-labelledby="hoji-title">
+  <section class="hoji" data-lava="cream" id="hojicha" aria-labelledby="hoji-title">
     <h2 id="hoji-title" class="rise">hojicha</h2>
     <p class="lede">Roasted green tea, two roasts.</p>
     <div class="callouts">
@@ -365,7 +386,7 @@ document.addEventListener('click', function (e) {
   </section>
 
   <!-- 4. Event exclusives -->
-  <section class="specials" id="exclusives" aria-labelledby="ex-title">
+  <section class="specials" data-lava="night" id="exclusives" aria-labelledby="ex-title">
     <figure>
       <img src="assets/ube-lastday-640.webp" srcset="assets/ube-lastday-640.webp 640w, assets/ube-lastday-1080.webp 1080w" sizes="(max-width:820px) 92vw, 46vw" width="640" height="800" alt="Ube Flan Matcha in a frozen bamboo cup on a wooden board, with ube halaya and leche flan beside it, milk being poured in" loading="lazy">
     </figure>
@@ -400,7 +421,7 @@ document.addEventListener('click', function (e) {
   </section>
 
   <!-- 5. Where we've whisked -->
-  <section class="popups" id="popups" aria-labelledby="pop-title">
+  <section class="popups" data-lava="paper" id="popups" aria-labelledby="pop-title">
     <div class="popups-head">
       <h2 id="pop-title" class="rise">Where we've whisked</h2>
       <p>No fixed shop. We pop up around Davao and GenSan and post every schedule on Instagram first.</p>
@@ -423,6 +444,7 @@ document.addEventListener('click', function (e) {
     </div>
   </section>
 
+  <div class="ticker t2" aria-hidden="true"><div><span>hojicha era <i>✦</i></span><span>made for one event only <i>✦</i></span><span>matcha &gt; coffee (we said what we said) <i>✦</i></span><span>catch us at the next pop-up <i>✦</i></span><span>bestie, it's matcha o'clock <i>✦</i></span><span>hojicha era <i>✦</i></span><span>made for one event only <i>✦</i></span><span>matcha &gt; coffee (we said what we said) <i>✦</i></span><span>catch us at the next pop-up <i>✦</i></span><span>bestie, it's matcha o'clock <i>✦</i></span></div></div>
   <!-- 6. Close -->
   <section class="close" aria-labelledby="close-title">
     <h2 id="close-title" class="rise">See you,<i>matcha people</i></h2>
@@ -469,6 +491,7 @@ document.addEventListener('click', function (e) {
 
 <script src="assets/site.js" defer></script>
 <script src="assets/seq.js"></script>
+<script src="assets/lava.js" defer></script>
 <script>
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
