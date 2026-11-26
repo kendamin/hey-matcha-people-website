@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/cups/matcha-latte.webp" fetchpriority="high">
+
 <style>
   :root{
     --green:#236430; --deep:#173F20; --night:#0F2A15;
@@ -49,34 +49,30 @@
   .top .btn{min-height:40px;padding:0 16px;font-size:13px}
   @media (max-width:720px){.top nav a:not(.btn){display:none}}
 
-  /* ---------- HERO: the pour ---------- */
-  .pour{position:relative;background:radial-gradient(120% 80% at 50% 38%,#2B7539 0,var(--green) 45%,var(--deep) 100%)}
-  .stage{position:relative;height:100svh;min-height:560px;overflow:hidden;display:grid;place-items:center}
-  .words{position:absolute;inset:0;display:grid;place-content:center start;padding-left:var(--pad);text-align:left;pointer-events:none;
+  /* ---------- HERO: the pour (Ken's Flow clip, scrubbed by scroll) ---------- */
+  .pour{position:relative;background:linear-gradient(180deg,#0E2A12 0%,#1B4A22 45%,#2F6636 80%,#3B7542 100%)}
+  .stage{position:relative;height:100svh;min-height:560px;overflow:hidden}
+  .film{position:absolute;z-index:1;top:0;height:100%;aspect-ratio:16/9;left:68%;transform:translate3d(-50%,calc(var(--drift,0)*-3svh),0);
+    -webkit-mask:radial-gradient(ellipse 46% 58% at 50% 56%,#000 52%,transparent 100%);mask:radial-gradient(ellipse 46% 58% at 50% 56%,#000 52%,transparent 100%)}
+  .film img,.film canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .film canvas{opacity:0;transition:opacity .4s}
+  .film.on canvas{opacity:1}
+  .words{position:absolute;z-index:2;inset:0;display:grid;place-content:center start;padding-left:var(--pad);text-align:left;pointer-events:none;
     transform:translate3d(calc(var(--mx,0)*-14px),calc(var(--drift,0)*-9svh + var(--my,0)*-10px),0)}
   .words span{display:block}
-  .w1{font-style:italic;font-size:clamp(2.2rem,5vw,4.6rem);margin:0 0 -.08em .12em}
-  .w2{font-size:clamp(7rem,24vw,23rem);line-height:.78;letter-spacing:-.03em;color:#E9ECD6}
-  .w3{font-size:clamp(2.6rem,7.4vw,7rem);margin:.04em 0 0 .08em}
-  .cupwrap{position:absolute;z-index:2;left:72%;top:50%;width:clamp(150px,18vw,230px);margin:-60px 0 0 calc(clamp(150px,18vw,230px)/-2);
-    transform:translate3d(calc(var(--mx,0)*12px),calc(var(--drift,0)*-4svh + var(--my,0)*8px),0) rotate(calc(var(--mx,0)*2deg))}
-  .cupwrap img{width:100%}
-  .cupwrap::after{content:"";position:absolute;left:6%;right:6%;bottom:-14px;height:28px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.38),transparent);z-index:-1}
-  .cup-milk{filter:grayscale(1) brightness(1.42) contrast(.78)}
-  .cup-green{position:absolute;inset:0;clip-path:inset(0 0 calc((1 - var(--fill,1))*100%) 0)}
-  .stream{position:absolute;z-index:-1;left:50%;bottom:90%;width:12px;margin-left:-6px;height:100svh;
-    background:linear-gradient(90deg,#2E7A31,#7BBF45 45%,#3E8F35);border-radius:0 0 8px 8px;
-    clip-path:inset(calc(var(--st,1)*100%) 0 calc((1 - var(--sb,0))*100%) 0)}
-  .splash{position:absolute;z-index:3;left:50%;top:9%;width:0;height:0;opacity:var(--splash,0)}
+  .w1{font-style:italic;font-size:clamp(2rem,4.2vw,4rem);margin:0 0 -.06em .1em}
+  .w2{font-size:clamp(6rem,17vw,17rem);line-height:.8;letter-spacing:-.03em;color:#E9ECD6}
+  .w3{font-size:clamp(2.4rem,5.6vw,5.4rem);margin:.06em 0 0 .06em}
   #dust{position:absolute;inset:0;z-index:4;width:100%;height:100%;pointer-events:none}
   .hero-copy{position:absolute;z-index:5;left:var(--pad);right:var(--pad);bottom:max(26px,env(safe-area-inset-bottom));display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:18px}
   .hero-copy p{max-width:30ch;font-size:15px}
   .hero-copy .acts{display:flex;gap:10px;flex-wrap:wrap}
-  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   @media (max-width:720px){
-    .words{place-content:start center;padding:14svh 0 0;text-align:center}
+    .film{top:30svh;height:auto;width:118vw;aspect-ratio:1;left:50%;
+      -webkit-mask:radial-gradient(closest-side,#000 62%,transparent 100%);mask:radial-gradient(closest-side,#000 62%,transparent 100%)}
+    .words{place-content:start center;padding:13svh 0 0;text-align:center}
     .w1,.w3{margin-left:0}
-    .cupwrap{left:50%;top:47svh;width:min(46vw,190px);margin:0 0 0 calc(min(46vw,190px)/-2)}
+    .w2{font-size:clamp(5rem,26vw,9rem)}
     .hero-copy{justify-content:center;text-align:center}
     .hero-copy p{margin-inline:auto}
     .hero-copy .acts{justify-content:center;width:100%}
@@ -174,11 +170,18 @@
   @media (max-width:760px){.bday{grid-template-columns:110px minmax(0,1fr);padding:14px}.bday .btn{grid-column:1/-1}}
 
   /* ---------- CLOSE ---------- */
-  .close{background:var(--green);padding:130px var(--pad) 120px;text-align:center;overflow:hidden}
-  .close h2{font-size:clamp(4.2rem,14vw,13rem);line-height:.82}
+  .close{position:relative;background:#1C5326;padding:140px var(--pad) 130px;overflow:hidden;isolation:isolate}
+  .close::before{content:"";position:absolute;inset:0;z-index:-1;background:url(assets/close-cup-1376.webp) 100% 50%/cover no-repeat;
+    -webkit-mask:linear-gradient(90deg,transparent 18%,#000 55%);mask:linear-gradient(90deg,transparent 18%,#000 55%)}
+  .close h2{font-size:clamp(4rem,8.6vw,8.6rem);line-height:.82}
   .close h2 i{display:block}
-  .close p{margin:26px auto 30px;max-width:40ch;color:var(--ink-soft)}
-  .close .acts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .close p{margin:26px 0 30px;max-width:36ch;color:var(--ink-soft)}
+  .close .acts{display:flex;flex-wrap:wrap;gap:10px}
+  @media (max-width:720px){
+    .close{text-align:center;padding-bottom:62vw}
+    .close::before{background:url(assets/close-cup-800.webp) 70% 100%/auto 64vw no-repeat;-webkit-mask:radial-gradient(ellipse 62% 40% at 64% 82%,#000 55%,transparent 100%);mask:radial-gradient(ellipse 62% 40% at 64% 82%,#000 55%,transparent 100%)}
+    .close p{margin-inline:auto}.close .acts{justify-content:center}
+  }
   .close .mail{display:block;margin-top:26px;font-size:14px}
 
   footer{background:var(--deep);padding:40px var(--pad) max(40px,env(safe-area-inset-bottom));font-size:13px;color:var(--ink-soft)}
@@ -221,7 +224,7 @@
     @keyframes cupout{to{transform:translateY(-30px) scale(.92);opacity:0}}
     @keyframes cupin{from{transform:translateY(46px) scale(.94);opacity:0}}
   }
-  @media (prefers-reduced-motion: reduce){.stream,.splash,#dust{display:none}}
+  @media (prefers-reduced-motion: reduce){#dust{display:none}}
 </style>
 <!-- GoatCounter: counts visits and Message/Call/Book taps (dashboard: kenabuda.goatcounter.com) -->
 <script data-goatcounter="https://kenabuda.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
@@ -263,16 +266,17 @@ document.addEventListener('click', function (e) {
 </header>
 
 <main id="main">
-  <!-- 1. The pour: scroll pours matcha into the cup. Swaps to Ken's Flow pour frames when they arrive. -->
+  <!-- 1. The pour: scrolling plays Ken's Flow pour clip frame by frame -->
   <section class="pour" id="pour" aria-labelledby="hero-title">
     <div class="stage">
-      <h1 class="words" id="hero-title"><span class="w1">it's a</span><span class="w2">matcha</span><span class="w3">state of mind</span></h1>
-      <div class="cupwrap">
-        <div class="stream" aria-hidden="true"></div>
-        <img class="cup-milk" src="assets/cups/matcha-latte.webp" width="186" height="191" alt="" fetchpriority="high">
-        <img class="cup-green" src="assets/cups/matcha-latte.webp" width="186" height="191" alt="An iced matcha latte in a clear Hey Matcha People cup: milk at the bottom, bright green matcha on top">
-        <div class="splash" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="film" id="film">
+        <picture>
+          <source media="(max-width:720px)" srcset="assets/seq/pour/m063.webp">
+          <img src="assets/seq/pour/d063.webp" width="960" height="540" alt="Bright green matcha poured into a clear Hey Matcha People cup of milk and ice" fetchpriority="high">
+        </picture>
+        <canvas aria-hidden="true"></canvas>
       </div>
+      <h1 class="words" id="hero-title"><span class="w1">it's a</span><span class="w2">matcha</span><span class="w3">state of mind</span></h1>
       <canvas id="dust" aria-hidden="true"></canvas>
       <div class="hero-copy">
         <p>A matcha pop-up whisking around Davao and GenSan.</p>
@@ -297,7 +301,7 @@ document.addEventListener('click', function (e) {
         <div class="levels" id="showLevels">
           <span>level 1</span><b>240</b><span>level 2</span><b>260</b><span>blend 03</span><b>270</b><span>okumidori</span><b>280</b>
         </div>
-        <div class="show-cup" id="showCup"><img src="assets/cups/matcha-latte.webp" width="186" height="191" alt="Classic matcha latte"></div>
+        <div class="show-cup" id="showCup"><img src="assets/cups/classic-hd.webp" width="444" height="471" alt="Classic matcha latte"></div>
         <div class="show-info">
           <h3 id="showTitle">classic latte</h3>
           <span class="show-price" id="showPrice">₱240</span>
@@ -305,7 +309,7 @@ document.addEventListener('click', function (e) {
       </div>
       <div>
         <ul class="drinks" id="drinks">
-          <li><button class="drink" type="button" aria-pressed="true" data-img="matcha-latte" data-levels="1"><span class="th"><img src="assets/cups/matcha-latte.webp" width="186" height="191" alt="" loading="lazy"></span><span><b>classic latte</b><small>level 1, level 2, blend 03, okumidori</small></span><span class="pr">240</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="true" data-img="classic-hd" data-levels="1"><span class="th"><img src="assets/cups/classic-hd.webp" width="444" height="471" alt="" loading="lazy"></span><span><b>classic latte</b><small>level 1, level 2, blend 03, okumidori</small></span><span class="pr">240</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="179" height="199" alt="" loading="lazy"></span><b>sea salt matcha</b><span class="pr">260</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="cream-cheese"><span class="th"><img src="assets/cups/cream-cheese.webp" width="191" height="208" alt="" loading="lazy"></span><b>cream cheese matcha</b><span class="pr">265</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="strawberry"><span class="th"><img src="assets/cups/strawberry.webp" width="192" height="189" alt="" loading="lazy"></span><b>strawberry matcha</b><span class="pr">260</span></button></li>
@@ -456,40 +460,41 @@ document.addEventListener('click', function (e) {
 </svg>
 
 <script src="assets/site.js" defer></script>
+<script src="assets/seq.js"></script>
 <script>
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const top = document.getElementById("top");
 
-  // ---- the pour: scroll drives --fill (cup turns green top-down) and the stream
-  const pour = document.getElementById("pour");
+  // ---- the pour: scroll scrubs the clip (64 frames)
+  const pour = document.getElementById("pour"), film = document.getElementById("film");
+  const cv = film.querySelector("canvas"), ctx = cv.getContext("2d");
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const seg = (p, a, b) => clamp((p - a) / (b - a));
-  let ticking = false;
+  const seq = Seq.load("pour", 64, "assets/", () => { film.classList.add("on"); frame(); });
+  let ticking = false, last = -1;
   function frame() {
     ticking = false;
     const r = pour.getBoundingClientRect();
     const span = r.height - innerHeight;
     const p = span > 0 ? clamp(-r.top / span) : 1;
-    const s = pour.style;
-    s.setProperty("--fill", seg(p, .2, .72).toFixed(4));
-    s.setProperty("--sb", seg(p, .06, .24).toFixed(4));       // stream reaches the cup
-    s.setProperty("--st", seg(p, .7, .84).toFixed(4));        // stream tail lifts away
-    const pouring = p > .2 && p < .76;
-    s.setProperty("--splash", pouring ? 1 : 0);
-    s.setProperty("--play", pouring ? "running" : "paused");
-    s.setProperty("--drift", p.toFixed(4));
+    pour.style.setProperty("--drift", p.toFixed(4));
     top.classList.toggle("solid", r.bottom < 80 || scrollY > innerHeight * 2.2);
     dust.y = scrollY;
+    if (reduce || r.bottom < 0) return;
+    const i = Math.round(seg(p, .02, .86) * 63), img = seq.frame(i);
+    if (!img) return;
+    const [w, h] = Seq.fit(cv);
+    if (img === last && cv.width === w) return;
+    last = img; ctx.clearRect(0, 0, w, h); Seq.cover(ctx, img, w, h);
   }
   const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+  if (!reduce) new IntersectionObserver(([e]) => { if (e.isIntersecting) seq.start(); }, { rootMargin: "200px" }).observe(pour);
 
   // ---- matcha dust: a few floating powder specks in front of the cup (foreground plane)
   const dust = { y: 0 };
   if (!reduce) {
     pour.classList.add("live");
-    pour.style.setProperty("--fill", 0);
-    pour.style.setProperty("--st", 0);
     const c = document.getElementById("dust"), x = c.getContext("2d");
     let W, H, specks = [], on = false;
     const size = () => {
@@ -519,7 +524,7 @@ document.addEventListener('click', function (e) {
     }
   }
   addEventListener("scroll", onScroll, { passive: true });
-  addEventListener("resize", onScroll);
+  addEventListener("resize", () => { last = -1; onScroll(); });
   frame();
 
   // ---- drink switcher
