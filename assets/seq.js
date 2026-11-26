@@ -41,6 +41,7 @@ window.Seq = (() => {
     if (!img) return;
     const s = (contain ? Math.min : Math.max)(w / img.naturalWidth, h / img.naturalHeight) * zoom;
     const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+    ctx.imageSmoothingQuality = "high";
     ctx.globalAlpha = alpha;
     ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
     ctx.globalAlpha = 1;
