@@ -7,7 +7,8 @@
     green: ["#236430", "#2F7B3B", "#1A5226", "#5FA552"],
     night: ["#0F2A15", "#1A4A22", "#123A1A", "#2F6A35"],
     cream: ["#ECE9D3", "#D6E3B8", "#E6D6B6", "#F7F4E6"],
-    paper: ["#F5F3E6", "#DFEBC6", "#F0E2C2", "#FFFFFF"]
+    paper: ["#F5F3E6", "#DFEBC6", "#F0E2C2", "#FFFFFF"],
+    ube:   ["#ECE9D3", "#DCCDE6", "#F0DCA8", "#FBF7EE"]   // ube purple + leche flan gold
   };
   const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255);
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -168,6 +168,13 @@
     background:radial-gradient(ellipse 52% 60% at 50% 50%,rgba(236,233,211,.9) 0%,rgba(236,233,211,.72) 55%,rgba(236,233,211,.35) 100%)}
   @media (max-width:720px){.swirl-wash{background:radial-gradient(ellipse 90% 60% at 50% 50%,rgba(236,233,211,.9),rgba(236,233,211,.55))}}
 
+
+  /* Option B backgrounds: light-through-ice (menu), hojicha swirl, ube + flan blobs, grain */
+  .menu,.ex,.bday,.hoji{position:relative;isolation:isolate}
+  .lava-cv{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+  [data-grain]::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.2;mix-blend-mode:multiply;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+
   /* Message chooser */
   .msg{margin:auto;border:1px solid rgba(30,58,36,.15);padding:0;border-radius:20px;width:min(420px,calc(100dvw - 24px));background:var(--paper);color:var(--ink);box-shadow:0 30px 80px rgba(23,63,32,.35)}
   .msg:modal{overscroll-behavior:contain}
@@ -264,7 +271,7 @@ document.addEventListener('click', function (e) {
     </div>
   </section>
 
-  <section class="menu" id="menu" aria-labelledby="menu-title">
+  <section class="menu" data-caustics id="menu" aria-labelledby="menu-title">
     <h2 id="menu-title" class="rise">matcha series</h2>
     <p class="sub">Two menus, prices as printed on each.<br><span style="white-space:nowrap"><span class="star">★</span> best seller</span> · <span style="white-space:nowrap">👍 recommended</span></p>
     <div class="menutabs" role="tablist" aria-label="Menus">
@@ -310,7 +317,8 @@ document.addEventListener('click', function (e) {
   </div>
   </section>
 
-  <section class="hoji" id="hojicha" aria-labelledby="hoji-title">
+  <section class="hoji swirl" data-grain id="hojicha" aria-labelledby="hoji-title">
+    <video class="swirl-bg" muted loop playsinline preload="none" aria-hidden="true" poster="../assets/swirl-hoji-poster.webp" data-d="../assets/swirl-hoji-d.mp4" data-m="../assets/swirl-hoji-m.mp4"></video><div class="swirl-wash" aria-hidden="true"></div>
     <h2 id="hoji-title" class="rise">hojicha</h2>
     <div class="callouts">
       <p class="roast l"><span>medium roast<br>230</span><i class="line" aria-hidden="true"></i></p>
@@ -329,7 +337,7 @@ document.addEventListener('click', function (e) {
     <p class="pill">additional hojicha +30 per gram</p>
   </section>
 
-  <section class="ex" id="exclusives" aria-labelledby="ex-title">
+  <section class="ex" data-lava="ube" data-grain id="exclusives" aria-labelledby="ex-title">
     <div class="ex-head">
       <h2 id="ex-title" class="rise">Made for one event only</h2>
       <p>Every big pop-up gets its own drink. When it's gone, it's gone (unless enough of you ask).</p>
@@ -358,7 +366,7 @@ document.addEventListener('click', function (e) {
     </ol>
   </section>
 
-  <section class="bday" aria-labelledby="bday-title">
+  <section class="bday" data-grain aria-labelledby="bday-title">
     <img src="../assets/birthday-640.webp" srcset="../assets/birthday-640.webp 640w, ../assets/birthday-1080.webp 1080w" sizes="(max-width:720px) 92vw, 46vw" width="640" height="800" alt="A birthday matcha drink with sprinkles and a candle, next to a can of Hey Matcha People matcha powder" loading="lazy">
     <div>
       <h2 id="bday-title" class="rise">One year of whisking</h2>
@@ -413,6 +421,8 @@ document.addEventListener('click', function (e) {
 <script src="../assets/site.js" defer></script>
 <script src="../assets/seq.js"></script>
 <script src="../assets/swirl.js" defer></script>
+<script src="../assets/lava.js" defer></script>
+<script src="../assets/caustics.js" defer></script>
 <script>
 (() => {
   const story = document.getElementById("story"), top = document.getElementById("top");
