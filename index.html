@@ -88,7 +88,7 @@
   .show{position:sticky;top:80px;min-height:min(72svh,640px);border-radius:28px;background:radial-gradient(90% 70% at 50% 40%,#2F7A3C,var(--deep));overflow:hidden;display:grid;place-items:center;padding:28px}
   .show-name{position:absolute;inset:auto 0 52% 0;text-align:center;font-family:var(--serif);font-size:clamp(3.4rem,8vw,7.5rem);line-height:.85;color:rgba(236,233,211,.16);pointer-events:none;padding:0 10px;view-transition-name:showname}
   .show-cup{position:relative;width:min(62%,280px);aspect-ratio:3/4;display:grid;place-items:end center;view-transition-name:showcup}
-  .show-cup img,.show-cup svg{width:100%;height:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 24px 26px rgba(0,0,0,.4))}
+  .show-cup img{width:100%;height:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 24px 26px rgba(0,0,0,.4))}
   .show-info{position:absolute;left:24px;right:24px;bottom:20px;display:flex;justify-content:space-between;align-items:end;gap:12px}
   .show-info h3{font-size:clamp(2rem,4vw,3rem)}
   .show-price{font-size:clamp(1.4rem,3vw,2rem);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -100,7 +100,7 @@
   .drink:hover{border-color:rgba(236,233,211,.5)}
   .drink[aria-pressed="true"]{background:var(--cream);color:var(--deep);border-color:var(--cream)}
   .drink .th{width:56px;height:64px;display:grid;place-items:end center}
-  .drink .th img,.drink .th svg{max-height:64px;width:auto}
+  .drink .th img{max-height:64px;width:auto}
   .drink b{font-weight:700;font-size:15px}
   .drink small{display:block;font-size:12px;opacity:.75}
   .drink .pr{font-weight:700;font-variant-numeric:tabular-nums}
@@ -310,12 +310,12 @@ document.addEventListener('click', function (e) {
       <div>
         <ul class="drinks" id="drinks">
           <li><button class="drink" type="button" aria-pressed="true" data-img="classic-hd" data-levels="1"><span class="th"><img src="assets/cups/classic-hd.webp" width="640" height="678" alt="" loading="lazy"></span><span><b>classic latte</b><small>level 1, level 2, blend 03, okumidori</small></span><span class="pr">240</span></button></li>
-          <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="179" height="199" alt="" loading="lazy"></span><b>sea salt matcha</b><span class="pr">260</span></button></li>
-          <li><button class="drink" type="button" aria-pressed="false" data-img="cream-cheese"><span class="th"><img src="assets/cups/cream-cheese.webp" width="191" height="208" alt="" loading="lazy"></span><b>cream cheese matcha</b><span class="pr">265</span></button></li>
-          <li><button class="drink" type="button" aria-pressed="false" data-img="strawberry"><span class="th"><img src="assets/cups/strawberry.webp" width="192" height="189" alt="" loading="lazy"></span><b>strawberry matcha</b><span class="pr">260</span></button></li>
-          <li><button class="drink" type="button" aria-pressed="false" data-img="earl-grey"><span class="th"><img src="assets/cups/earl-grey.webp" width="196" height="207" alt="" loading="lazy"></span><b>earl grey matcha</b><span class="pr">260</span></button></li>
-          <li><button class="drink" type="button" aria-pressed="false" data-svg="toasted" data-tag="★ best seller"><span class="th"><svg viewBox="0 0 120 150" aria-hidden="true"><use href="#cup-toasted"/></svg></span><span><b>toasted milk matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">260</span></button></li>
-          <li><button class="drink" type="button" aria-pressed="false" data-svg="kinako" data-tag="👍 recommended"><span class="th"><svg viewBox="0 0 120 150" aria-hidden="true"><use href="#cup-kinako"/></svg></span><span><b>kinako cream matcha <span aria-label="recommended">👍</span></b></span><span class="pr">280</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></span><b>sea salt matcha</b><span class="pr">260</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="cream-cheese"><span class="th"><img src="assets/cups/cream-cheese.webp" width="215" height="236" alt="" loading="lazy"></span><b>cream cheese matcha</b><span class="pr">265</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="strawberry"><span class="th"><img src="assets/cups/strawberry.webp" width="209" height="233" alt="" loading="lazy"></span><b>strawberry matcha</b><span class="pr">260</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="earl-grey"><span class="th"><img src="assets/cups/earl-grey.webp" width="223" height="236" alt="" loading="lazy"></span><b>earl grey matcha</b><span class="pr">260</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="toasted-milk" data-tag="★ best seller"><span class="th"><img src="assets/cups/toasted-milk.webp" width="215" height="228" alt="" loading="lazy"></span><span><b>toasted milk matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">260</span></button></li>
+          <li><button class="drink" type="button" aria-pressed="false" data-img="kinako" data-tag="👍 recommended"><span class="th"><img src="assets/cups/kinako.webp" width="211" height="243" alt="" loading="lazy"></span><span><b>kinako cream matcha <span aria-label="recommended">👍</span></b></span><span class="pr">280</span></button></li>
         </ul>
         <p class="pill">additional matcha +35 per gram</p>
       </div>
@@ -328,7 +328,7 @@ document.addEventListener('click', function (e) {
     <p class="lede">Roasted green tea, two roasts.</p>
     <div class="callouts">
       <p class="roast l"><span>medium roast<br>230</span><i class="line" aria-hidden="true"></i></p>
-      <svg class="hcup" viewBox="0 0 120 150" role="img" aria-label="Illustration of an iced hojicha latte"><use href="#cup-hoji"/></svg>
+      <img class="hcup" src="assets/cups/hojicha.webp" width="603" height="653" alt="Iced hojicha latte in a clear Hey Matcha People cup" loading="lazy">
       <p class="roast r"><i class="line" aria-hidden="true"></i><span>dark roast<br>240</span></p>
     </div>
     <h3>hojicha latte</h3>
@@ -445,19 +445,6 @@ document.addEventListener('click', function (e) {
   </div>
 </dialog>
 
-<!-- Illustrated cups for drinks we don't have a photo of yet (swap for real photos when sent) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <clipPath id="cupclip"><path d="M14 18 H106 L96 140 Q95 146 89 146 H31 Q25 146 24 140 Z"/></clipPath>
-    <g id="cupshell">
-      <path d="M14 18 H106 L96 140 Q95 146 89 146 H31 Q25 146 24 140 Z" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
-      <rect x="8" y="12" width="104" height="8" rx="4" fill="rgba(255,255,255,.35)"/>
-    </g>
-    <g id="cup-toasted"><g clip-path="url(#cupclip)"><rect x="0" y="22" width="120" height="44" fill="#E6D3B0"/><path d="M0 62 Q30 70 60 62 T120 62 V112 H0Z" fill="#5E9B3A"/><path d="M0 108 Q30 116 60 108 T120 108 V150 H0Z" fill="#EFE9D8"/></g><use href="#cupshell"/></g>
-    <g id="cup-kinako"><g clip-path="url(#cupclip)"><rect x="0" y="22" width="120" height="30" fill="#D9BE8E"/><path d="M0 48 Q30 56 60 48 T120 48 V104 H0Z" fill="#3E8435"/><path d="M0 100 Q30 108 60 100 T120 100 V150 H0Z" fill="#F1ECDD"/></g><use href="#cupshell"/></g>
-    <g id="cup-hoji"><g clip-path="url(#cupclip)"><rect x="0" y="22" width="120" height="128" fill="#6E5A45"/><rect x="0" y="22" width="120" height="10" fill="#A58B6C"/><rect x="34" y="30" width="22" height="18" rx="4" fill="rgba(255,255,255,.35)"/><rect x="62" y="26" width="20" height="16" rx="4" fill="rgba(255,255,255,.3)"/></g><path d="M14 18 H106 L96 140 Q95 146 89 146 H31 Q25 146 24 140 Z" fill="none" stroke="rgba(30,90,43,.55)" stroke-width="2"/><rect x="8" y="12" width="104" height="8" rx="4" fill="rgba(30,90,43,.25)"/></g>
-  </defs>
-</svg>
 
 <script src="assets/site.js" defer></script>
 <script src="assets/seq.js"></script>
@@ -536,9 +523,7 @@ document.addEventListener('click', function (e) {
     const price = b.querySelector(".pr").textContent;
     const update = () => {
       list.querySelectorAll(".drink").forEach(d => d.setAttribute("aria-pressed", d === b));
-      $("showCup").innerHTML = b.dataset.img
-        ? `<img src="assets/cups/${b.dataset.img}.webp" alt="${name}">`
-        : `<svg viewBox="0 0 120 150" role="img" aria-label="Illustration of ${name}"><use href="#cup-${b.dataset.svg}"/></svg>`;
+      $("showCup").innerHTML = `<img src="assets/cups/${b.dataset.img}.webp" alt="${name}">`;
       $("showName").textContent = name.replace(/ matcha$/, "");
       $("showTitle").textContent = name;
       $("showPrice").textContent = "₱" + price;
