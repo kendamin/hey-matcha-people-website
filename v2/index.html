@@ -193,6 +193,10 @@
     transform:translate3d(var(--dx,0px),-50%,0)}
   @media (prefers-reduced-motion: reduce){.route .pin{transform:scale(1);transition:none}}
 
+
+  /* one page-wide ripple field (assets/ripplefield.js) shows through these sections */
+  .ripple-on [data-ripple]{background:transparent!important}
+  .ripple-on [data-ripple]::after{display:none}
   /* Message chooser */
   .msg{margin:auto;border:1px solid rgba(30,58,36,.15);padding:0;border-radius:20px;width:min(420px,calc(100dvw - 24px));background:var(--paper);color:var(--ink);box-shadow:0 30px 80px rgba(23,63,32,.35)}
   .msg:modal{overscroll-behavior:contain}
@@ -269,7 +273,7 @@ document.addEventListener('click', function (e) {
 </header>
 
 <main id="main">
-  <section class="story" id="story" aria-labelledby="story-title">
+  <section class="story" data-ripple="soft" id="story" aria-labelledby="story-title">
     <div class="stage">
       <h1 id="story-title">Hey Matcha People · matcha pop-up, Davao and GenSan</h1>
       <div class="film" id="film">
@@ -289,7 +293,7 @@ document.addEventListener('click', function (e) {
     </div>
   </section>
 
-  <section class="menu" data-caustics="green" id="menu" aria-labelledby="menu-title">
+  <section class="menu" data-ripple="green" id="menu" aria-labelledby="menu-title">
     <h2 id="menu-title" class="rise">matcha series</h2>
     <p class="sub">Two menus, prices as printed on each.<br><span style="white-space:nowrap"><span class="star">★</span> best seller</span> · <span style="white-space:nowrap">👍 recommended</span></p>
     <div class="menutabs" role="tablist" aria-label="Menus">
@@ -335,7 +339,7 @@ document.addEventListener('click', function (e) {
   </div>
   </section>
 
-  <section class="hoji swirl" data-caustics="hoji" id="hojicha" aria-labelledby="hoji-title">
+  <section class="hoji swirl" data-ripple="hoji" id="hojicha" aria-labelledby="hoji-title">
     <h2 id="hoji-title" class="rise">hojicha</h2>
     <div class="callouts">
       <p class="roast l"><span>medium roast<br>230</span><i class="line" aria-hidden="true"></i></p>
@@ -354,7 +358,7 @@ document.addEventListener('click', function (e) {
     <p class="pill">additional hojicha +30 per gram</p>
   </section>
 
-  <section class="ex" data-caustics="cream" id="exclusives" aria-labelledby="ex-title">
+  <section class="ex" data-ripple="cream" id="exclusives" aria-labelledby="ex-title">
     <div class="ex-head">
       <h2 id="ex-title" class="rise">Made for one event only</h2>
       <p>Every big pop-up gets its own drink. When it's gone, it's gone (unless enough of you ask).</p>
@@ -367,7 +371,7 @@ document.addEventListener('click', function (e) {
     </ul>
   </section>
 
-  <section class="pops" data-caustics="deep" id="popups" aria-labelledby="pop-title">
+  <section class="pops" data-ripple="deep" id="popups" aria-labelledby="pop-title">
     <svg class="route" id="route" aria-hidden="true"></svg>
     <div class="pops-side">
       <h2 id="pop-title">Where we've whisked</h2>
@@ -384,7 +388,7 @@ document.addEventListener('click', function (e) {
     </ol>
   </section>
 
-  <section class="bday" data-caustics="paper" aria-labelledby="bday-title">
+  <section class="bday" data-ripple="paper" aria-labelledby="bday-title">
     <div class="drift" id="drift" aria-hidden="true">whisk · pour · sip · whisk · pour · sip · whisk · pour · sip ·</div>
     <img src="../assets/birthday-640.webp" srcset="../assets/birthday-640.webp 640w, ../assets/birthday-1080.webp 1080w" sizes="(max-width:720px) 92vw, 46vw" width="640" height="800" alt="A birthday matcha drink with sprinkles and a candle, next to a can of Hey Matcha People matcha powder" loading="lazy">
     <div>
@@ -393,7 +397,7 @@ document.addEventListener('click', function (e) {
     </div>
   </section>
 
-  <section class="close swirl" data-caustics="cream" aria-labelledby="close-title">
+  <section class="close swirl" data-ripple="cream" aria-labelledby="close-title">
     <h2 id="close-title" class="rise">See you,<i>matcha people</i></h2>
     <p>Ask where we're whisking next, or anything about the menu.</p>
     <div class="acts">
@@ -439,7 +443,7 @@ document.addEventListener('click', function (e) {
 
 <script src="../assets/site.js" defer></script>
 <script src="../assets/seq.js"></script>
-<script src="../assets/caustics.js" defer></script>
+<script src="../assets/ripplefield.js" defer></script>
 <script>
 (() => {
   const story = document.getElementById("story"), top = document.getElementById("top");
