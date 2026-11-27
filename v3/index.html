@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hey Matcha People · one cup, four grades</title>
+<meta name="description" content="Hey Matcha People, a matcha pop-up in Davao and GenSan. The classic latte in four matcha grades: level 1, level 2, blend 03 and okumidori.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B2816">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preload" as="fetch" href="img/hero.webp" crossorigin>
+<style>
+  /* ---------- tokens ---------- */
+  :root{
+    --bg:#F3F1E4; --ink:#1C3322; --muted:#8C9786; --number:#A7B09F; --green:#236430; --deep:#173F20;
+    --cream:#F4F1E2; --card:#FFFDF6; --line:rgba(244,241,226,.28); --sprout:#B9E394;
+    --hud:#EAFFDA; --hud-glow:#9BE36B; --glow-core:#F1FFE6;
+    --serif:"Instrument Serif","Times New Roman",serif;
+    --sans:"Instrument Sans",system-ui,sans-serif;
+    --u:min(100vw / 1440, 100svh / 760);
+    --edge:calc(40 * var(--u)); --head-h:calc(80 * var(--u));
+    --cup-h:calc(208 * var(--u)); --cup-step:calc(236 * var(--u));
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  @media (max-width:1023px){
+    :root{--u:min(100vw / 415, 100svh / 760);--edge:calc(20 * var(--u));--head-h:calc(64 * var(--u));--cup-h:calc(150 * var(--u));--cup-step:calc(92 * var(--u))}
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--ink);font:400 calc(18 * var(--u))/calc(21 * var(--u)) var(--sans);font-stretch:94%}
+  img{display:block}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  :focus-visible{outline:2px solid var(--sprout);outline-offset:3px}
+  .skip{position:fixed;left:-999px;top:8px;z-index:50;background:var(--cream);color:var(--deep);padding:8px 12px;border-radius:8px}
+  .skip:focus{left:8px}
+  .pill{display:inline-flex;align-items:center;justify-content:center;gap:calc(8 * var(--u));border-radius:99px;white-space:nowrap;
+    transition:scale .2s var(--ease),background-color .2s,color .2s;touch-action:manipulation}
+  @media (hover:hover){.pill:hover{scale:1.03}}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+  /* ---------- header (cream on the photo, ink once the page washes to cream) ---------- */
+  .head{position:fixed;top:0;left:0;right:0;z-index:10;height:var(--head-h);padding:0 var(--edge);display:flex;align-items:center;justify-content:space-between;
+    color:var(--hc,var(--cream));border-bottom:1px solid var(--hl,var(--line));opacity:0}
+  .logo{display:grid;line-height:.82;font-family:var(--serif);font-size:calc(25 * var(--u))}
+  .logo small{font:600 calc(8 * var(--u))/1 var(--sans);letter-spacing:.22em;margin:0 0 calc(2 * var(--u)) calc(2 * var(--u))}
+  .logo i{padding-left:calc(9 * var(--u))}
+  .head nav{display:flex;gap:calc(32 * var(--u));font-size:calc(16 * var(--u));line-height:calc(19 * var(--u))}
+  .head nav a{transition:opacity .2s var(--ease)}
+  @media (hover:hover){.head nav a:hover{opacity:.6}}
+  .head .pill{height:calc(45 * var(--u));padding:0 calc(20 * var(--u));background:var(--hb,var(--cream));color:var(--ht,var(--deep));font-weight:500}
+  @media (max-width:1023px){.head nav{display:none}.head .pill{height:calc(40 * var(--u));padding:0 calc(16 * var(--u));font-size:calc(16 * var(--u))}}
+
+  /* ---------- scene ---------- */
+  .scene{position:relative;height:400svh}
+  .pin{position:sticky;top:0;height:100svh;overflow:hidden;background:#0B2816}
+  .stage{position:absolute;inset:0;pointer-events:none}
+  .portrait{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+  .scrim{position:absolute;inset:0;background:
+      linear-gradient(90deg,rgba(9,32,16,.55) 0%,rgba(9,32,16,.15) 42%,transparent 60%),
+      linear-gradient(0deg,rgba(9,32,16,.55) 0%,transparent 34%)}
+  @media (max-width:1023px){.scrim{background:linear-gradient(180deg,rgba(9,32,16,.7) 0%,transparent 34%,transparent 58%,rgba(9,32,16,.85) 100%)}}
+  .wash{position:absolute;inset:0;background:var(--bg);opacity:0}
+
+  /* ring around the logo */
+  .hud-wrap{position:absolute;left:50%;top:50%;translate:-50% -50%;width:calc(640 * var(--u));height:calc(640 * var(--u));mix-blend-mode:screen}
+  .hud-wrap svg{width:100%;height:100%;display:block;overflow:visible;opacity:0}
+  .hud-scan{opacity:0}
+  .hud-mesh{opacity:0}
+  .hud-strokes{fill:none;stroke:var(--hud);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+  .hud-strokes .thin{stroke:#fff;stroke-width:1.5}
+  .hud-label{font:600 11px var(--sans);letter-spacing:.32em;fill:var(--hud);opacity:.8}
+  @media (max-width:1023px){.hud-wrap{width:calc(640 * var(--u) * 170 / 210);height:calc(640 * var(--u) * 170 / 210)}}
+
+  /* the four grade cups */
+  .cups{position:absolute;left:50%;top:54%;width:0;height:0;opacity:0;--spread:0}
+  .cup{position:absolute;left:0;top:0;translate:calc(-50% + var(--i) * var(--cup-step) * var(--spread)) -50%;z-index:var(--z,1)}
+  .cup img{height:var(--cup-h);width:auto;transition:transform .35s var(--ease);filter:drop-shadow(0 calc(18 * var(--u)) calc(22 * var(--u)) rgba(28,51,34,.18))}
+  .cup .glow{position:absolute;left:50%;bottom:calc(-8 * var(--u));width:80%;height:calc(46 * var(--u));translate:-50% 0;border-radius:50%;z-index:-1;opacity:0;
+    background:radial-gradient(closest-side,rgba(155,227,107,.75),rgba(155,227,107,0));transition:opacity .3s var(--ease)}
+  .cup .tag{position:absolute;left:50%;top:calc(100% + 14 * var(--u));translate:-50% 0;font-size:calc(13 * var(--u));white-space:nowrap;color:var(--muted);opacity:calc(var(--spread) * 1)}
+  .cup.on img{transform:translateY(calc(-14 * var(--u))) scale(1.04)}
+  .cup.on .glow{opacity:1}
+  @media (max-width:1023px){.cups{top:54%}}
+  .cup .tag{display:none}
+
+  /* ---------- track: two screens of copy ---------- */
+  .track{position:absolute;top:0;left:0;right:0}
+  .screen{position:relative;height:100svh}
+
+  /* hero copy (cream on the photo) */
+  .hero{color:var(--cream)}
+  .top{position:absolute;left:var(--edge);top:calc(144 * var(--u));display:flex;flex-direction:column;gap:calc(16 * var(--u))}
+  .eyebrow{color:rgba(244,241,226,.7);opacity:0}
+  .display{font:400 calc(96 * var(--u))/.88 var(--serif);letter-spacing:-.01em;white-space:nowrap}
+  .display .ln{display:block;white-space:nowrap}
+  .display .ln2{font-style:italic;color:var(--sprout)}
+  .hero h1{opacity:0}
+  .ch{display:inline-block;white-space:pre}
+  .callout{display:flex;align-items:center;gap:calc(12 * var(--u));margin-top:calc(26 * var(--u));opacity:0}
+  .cc{display:flex;align-items:center;gap:calc(16 * var(--u));padding:calc(12 * var(--u)) calc(14 * var(--u)) calc(12 * var(--u)) calc(12 * var(--u));border-radius:calc(28 * var(--u));
+    background:rgba(255,253,246,.94);color:var(--ink);box-shadow:0 calc(20 * var(--u)) calc(50 * var(--u)) rgba(0,0,0,.22)}
+  .cc img{width:calc(84 * var(--u));height:calc(84 * var(--u));object-fit:cover;border-radius:calc(18 * var(--u))}
+  .cc .t{display:flex;flex-direction:column;gap:calc(4 * var(--u));min-width:calc(150 * var(--u))}
+  .cc .t span:last-child{color:var(--muted)}
+  .cc .pill{height:calc(44 * var(--u));padding:0 calc(16 * var(--u));background:var(--green);color:var(--cream);font-size:calc(14 * var(--u));line-height:1}
+  .cc .pill svg{width:calc(11 * var(--u));height:calc(11 * var(--u))}
+  .pager{display:flex;flex-direction:column;gap:calc(4 * var(--u))}
+  .pager i{width:calc(8 * var(--u));height:calc(8 * var(--u));border-radius:calc(4 * var(--u));background:rgba(244,241,226,.35)}
+  .pager i:first-child{height:calc(16 * var(--u));background:var(--sprout)}
+  .bottom{position:absolute;left:var(--edge);bottom:var(--edge);width:calc(440 * var(--u));display:flex;flex-direction:column;gap:calc(28 * var(--u))}
+  .bottom p{opacity:0}
+  .btns{display:flex;gap:calc(12 * var(--u));opacity:0}
+  .btns .pill{height:calc(53 * var(--u));padding:0 calc(22 * var(--u))}
+  .btn-a{background:var(--cream);color:var(--deep);font-weight:500}
+  .btn-b{box-shadow:inset 0 0 0 1px rgba(244,241,226,.55);color:var(--cream)}
+  .hint{position:absolute;right:var(--edge);bottom:var(--edge);display:flex;align-items:center;gap:calc(12 * var(--u));opacity:0}
+  .hint b{width:calc(40 * var(--u));height:calc(40 * var(--u));border-radius:50%;background:var(--cream);color:var(--muted);display:grid;place-items:center;font:400 calc(18 * var(--u))/1 system-ui;font-weight:400}
+  @media (max-width:1023px){
+    .top{top:calc(96 * var(--u));right:var(--edge)}
+    .eyebrow{font-size:calc(14 * var(--u));line-height:calc(17 * var(--u))}
+    .display{font-size:calc(52 * var(--u))}
+    .callout,.hint{display:none}
+    .hero .top,.hero .bottom p{text-shadow:0 1px 18px rgba(6,26,12,.75),0 1px 3px rgba(6,26,12,.6)}
+    .display .ln2{color:#D4F0B8}
+    .bottom{left:var(--edge);right:var(--edge);bottom:calc(24 * var(--u));width:auto;gap:calc(20 * var(--u));font-size:calc(16 * var(--u));line-height:calc(19 * var(--u))}
+    .btns .pill{height:calc(47 * var(--u));padding:0 calc(20 * var(--u))}
+  }
+
+  /* features (ink on cream) */
+  .f-head{position:absolute;left:var(--edge);top:calc(128 * var(--u));font-size:calc(84 * var(--u))}
+  .f-head .ln2{color:var(--green)}
+  .lead{position:absolute;right:calc(41 * var(--u));top:calc(144 * var(--u));width:calc(330 * var(--u))}
+  .lead small{display:block;margin-top:calc(14 * var(--u));font-size:calc(14 * var(--u));line-height:calc(17 * var(--u));color:var(--muted)}
+  .cards{position:absolute;left:var(--edge);right:calc(41 * var(--u));bottom:calc(50 * var(--u));display:flex;align-items:flex-end;justify-content:space-between;gap:calc(12 * var(--u))}
+  .card{flex:0 0 calc(325 * var(--u));padding:calc(28 * var(--u));border-radius:calc(28 * var(--u));background:var(--card);outline:none;cursor:default;
+    box-shadow:0 calc(10 * var(--u)) calc(30 * var(--u)) rgba(28,51,34,.06);transition:background-color .3s var(--ease),color .3s var(--ease)}
+  .card .row{display:flex;justify-content:space-between;align-items:center;white-space:nowrap}
+  .card h3{font:500 calc(24 * var(--u))/calc(29 * var(--u)) var(--sans);color:var(--green);transition:color .3s var(--ease)}
+  .card .no{color:var(--number);transition:color .3s var(--ease)}
+  .card p{margin-top:calc(20 * var(--u))}
+  .card .price{display:block;margin-top:calc(14 * var(--u));font:400 calc(30 * var(--u))/1 var(--serif);color:var(--green);transition:color .3s var(--ease)}
+  .card .more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
+  .card .more>div{min-height:0;overflow:hidden;display:flex;justify-content:flex-end}
+  .card .more a{margin-top:calc(20 * var(--u));display:inline-flex;align-items:center;gap:calc(10 * var(--u));font-size:calc(15 * var(--u))}
+  .card .more svg{width:calc(20 * var(--u));height:calc(20 * var(--u))}
+  .card[data-active="true"]{background:var(--green);color:var(--cream)}
+  .card[data-active="true"] h3,.card[data-active="true"] .no,.card[data-active="true"] .price{color:var(--cream)}
+  .card[data-active="true"] .more{grid-template-rows:1fr}
+  @media (max-width:1023px){
+    .f-head{top:calc(96 * var(--u))}
+    .lead{left:var(--edge);right:var(--edge);top:calc(196 * var(--u));width:auto;font-size:calc(16 * var(--u));line-height:calc(19 * var(--u))}
+    .cards{left:0;right:0;bottom:calc(24 * var(--u));padding:0 calc(20 * var(--u));gap:calc(12 * var(--u));overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 calc(20 * var(--u));scrollbar-width:none;justify-content:flex-start;pointer-events:auto}
+    .cards::-webkit-scrollbar{display:none}
+    .card{flex:0 0 calc(280 * var(--u));padding:calc(24 * var(--u));border-radius:calc(24 * var(--u));scroll-snap-align:start;font-size:calc(16 * var(--u));line-height:calc(19 * var(--u))}
+    .card h3{font-size:calc(20 * var(--u));line-height:calc(24 * var(--u))}
+    .card p{margin-top:calc(16 * var(--u))}
+  }
+
+  /* ---------- end ---------- */
+  .end{background:var(--bg);padding:calc(56 * var(--u)) var(--edge) max(calc(40 * var(--u)),env(safe-area-inset-bottom));border-top:1px solid rgba(28,51,34,.1);
+    display:flex;flex-wrap:wrap;gap:calc(16 * var(--u)) calc(32 * var(--u));justify-content:space-between;align-items:center;font-size:calc(15 * var(--u));color:#56684F}
+  .end nav{display:flex;gap:calc(20 * var(--u));flex-wrap:wrap}
+  .end nav a,.end p a{text-decoration:underline;text-underline-offset:3px}
+  .end .pill{height:calc(48 * var(--u));padding:0 calc(22 * var(--u));background:var(--green);color:var(--cream);text-decoration:none!important}
+
+  /* ---------- Message chooser ---------- */
+  .msg{margin:auto;border:0;padding:0;border-radius:22px;width:min(420px,calc(100dvw - 24px));background:var(--card);color:var(--ink);box-shadow:0 30px 80px rgba(11,40,22,.4);font:16px/1.4 var(--sans)}
+  .msg::backdrop{background:rgba(11,40,22,.55)}
+  .msg:modal{overscroll-behavior:contain}
+  .msg-inner{padding:24px 22px 22px;display:grid;gap:10px}
+  .msg-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:6px}
+  .msg h2{font:400 34px/1 var(--serif);color:var(--green)}
+  .msg-head p{color:#56684F;font-size:14px;margin-top:8px}
+  .msg-close{width:40px;height:40px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(28,51,34,.25)}
+  .msg .btn{display:flex;justify-content:center;align-items:center;min-height:50px;border-radius:99px;font-weight:500;box-shadow:inset 0 0 0 1px rgba(28,51,34,.25)}
+  .msg .btn-solid{background:var(--green);color:var(--cream);box-shadow:none}
+  .msg-note{font-size:13px;background:rgba(35,100,48,.08);border-left:3px solid var(--green);border-radius:8px;padding:10px 12px;display:grid;gap:4px}
+  .msg [hidden]{display:none}
+  @media (max-width:600px){.msg:modal{margin:auto auto 0;width:100dvw;max-width:100dvw;border-radius:22px 22px 0 0}.msg-inner{padding-bottom:max(22px,env(safe-area-inset-bottom))}}
+
+  /* ---------- cursor ---------- */
+  .cursor{display:none}
+  @media (hover:hover) and (pointer:fine){
+    body,a,button,[tabindex]{cursor:none}
+    .cursor{display:block;position:fixed;left:0;top:0;z-index:20;width:calc(40 * var(--u));height:calc(40 * var(--u));margin:calc(-20 * var(--u)) 0 0 calc(-20 * var(--u));border-radius:50%;
+      background:rgba(185,227,148,.42);box-shadow:inset 0 0 0 1px rgba(255,255,255,.7);pointer-events:none;opacity:0;transition:opacity .2s linear;backdrop-filter:blur(2px)}
+  }
+  .probe{position:absolute;visibility:hidden;width:calc(100 * var(--u));height:0}
+</style>
+<!-- GoatCounter: counts visits and Message/Call/Book taps (dashboard: kenabuda.goatcounter.com) -->
+<script data-goatcounter="https://kenabuda.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>
+document.addEventListener('click', function (e) {
+  var el = e.target.closest && e.target.closest('a, button');
+  if (!el || !window.goatcounter || !window.goatcounter.count) return;
+  var href = (el.getAttribute('href') || '').toLowerCase();
+  var text = (el.textContent || '').trim().toLowerCase();
+  var kind =
+    /^fb-messenger:|m\.me\/|messenger\.com/.test(href) ? 'Message' :
+    /^tel:/.test(href) ? 'Call' :
+    /^sms:/.test(href) ? 'Text' :
+    /wa\.me\//.test(href) ? 'WhatsApp' :
+    /google\.[a-z.]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps|maps\.google/.test(href) ? 'Directions' :
+    /shopee\.|lazada\./.test(href) ? 'Shop' :
+    /instagram\.com/.test(href) ? 'Instagram' :
+    /facebook\.com/.test(href) ? 'Facebook' :
+    /book|reserve|trial|inquire|inquiry/.test(text) ? 'Book' :
+    /^message|messenger/.test(text) ? 'Message' : '';
+  if (!kind) return;
+  var site = location.pathname.replace(/index\.html$/, '').replace(/^\/|\/$/g, '') || 'home';
+  var popup = el.closest('dialog') ? ' (popup)' : '';
+  window.goatcounter.count({ path: site + ': ' + kind + popup, title: text.slice(0, 60), event: true });
+}, true);
+</script>
+</head>
+<body>
+<a class="skip" href="#grades">Skip to the grades</a>
+<div class="probe" id="probe"></div>
+
+<header class="head" data-reveal="header">
+  <a class="logo" href="#" aria-label="Hey Matcha People, back to top"><small>HEY</small>Matcha<i>People</i></a>
+  <nav aria-label="Main">
+    <a href="#grades">Grades</a>
+    <a href="../#menu">Full menu</a>
+    <a href="../#hojicha">Hojicha</a>
+    <a href="../v2/#popups">Pop-ups</a>
+    <a href="https://www.instagram.com/heymatchapeople/" target="_blank" rel="noopener">Instagram</a>
+  </nav>
+  <a class="pill" href="https://m.me/heymatchapeople">Message us</a>
+</header>
+
+<main id="top">
+  <div class="scene" data-scene="scene">
+    <div class="pin">
+      <div class="stage">
+        <canvas class="portrait" data-scene="portrait" aria-hidden="true"></canvas>
+        <div class="scrim" data-scene="scrim"></div>
+        <div class="wash" data-scene="wash"></div>
+        <div class="hud-wrap" aria-hidden="true">
+          <svg viewBox="-320 -320 640 640" data-scene="hud" id="hud"></svg>
+        </div>
+        <div class="cups" data-scene="cups" id="cups">
+          <div class="cup" style="--i:-1.5;--z:2" data-cup="0"><span class="glow"></span><img src="img/cup-level-1.webp" width="906" height="960" alt=""><span class="tag">level 1</span></div>
+          <div class="cup" style="--i:-0.5;--z:4" data-cup="1"><span class="glow"></span><img src="img/cup-level-2.webp" width="906" height="960" alt=""><span class="tag">level 2</span></div>
+          <div class="cup" style="--i:0.5;--z:3" data-cup="2"><span class="glow"></span><img src="img/cup-blend-03.webp" width="906" height="960" alt=""><span class="tag">blend 03</span></div>
+          <div class="cup" style="--i:1.5;--z:1" data-cup="3"><span class="glow"></span><img src="img/cup-okumidori.webp" width="906" height="960" alt=""><span class="tag">okumidori</span></div>
+        </div>
+      </div>
+
+      <div class="track" data-scene="track">
+        <section class="screen hero" aria-labelledby="h1">
+          <div class="top">
+            <p class="eyebrow" data-reveal="label">Matcha pop-up · Davao and GenSan</p>
+            <h1 class="display" id="h1" aria-label="It's a matcha state of mind." data-reveal="headline">
+              <span class="ln" aria-hidden="true" data-line>It's a matcha</span>
+              <span class="ln ln2" aria-hidden="true" data-line>state of mind.</span>
+            </h1>
+            <div class="callout" data-reveal="callout">
+              <div class="cc">
+                <img src="../assets/ube-lastday-640.webp" width="640" height="800" alt="Ube Flan Matcha in a frozen bamboo cup">
+                <div class="t"><span>Ube Flan Matcha</span><span>Event exclusive</span></div>
+                <a class="pill" href="https://www.instagram.com/heymatchapeople/" target="_blank" rel="noopener">More
+                  <svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 10 10 1M3 1h7v7"/></svg></a>
+              </div>
+              <div class="pager" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <div class="bottom">
+            <p data-reveal="body">Whisked to order at pop-ups around Davao and GenSan. Classic lattes from ₱240, hojicha from ₱230, and a new drink for every big event.</p>
+            <div class="btns" data-reveal="buttons">
+              <a class="pill btn-a" href="#grades">See the four grades</a>
+              <a class="pill btn-b" href="https://m.me/heymatchapeople">Message us</a>
+            </div>
+          </div>
+          <div class="hint" data-reveal="scroll" aria-hidden="true">Scroll down <b>↓</b></div>
+        </section>
+
+        <section class="screen" id="grades" aria-labelledby="h2">
+          <h2 class="display f-head" id="h2"><span class="ln">One cup.</span><span class="ln ln2">Four grades.</span></h2>
+          <p class="lead">Our classic latte comes in four matcha grades, from level 1 to okumidori. The same cold milk and ice, your pick of matcha.<small>Prices as printed on their menu. Additional matcha +35 per gram.</small></p>
+          <div class="cards" id="cards">
+            <article class="card" tabindex="0" data-card="0"><div class="row"><h3>Level 1</h3><span class="no">01</span></div>
+              <p>The classic latte at its everyday level: matcha over cold milk and ice.</p><span class="price">₱240</span>
+              <div class="more"><div><a href="https://m.me/heymatchapeople">Ask about it <svg viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 20 20 1M5 1h15v15"/></svg></a></div></div></article>
+            <article class="card" tabindex="0" data-card="1"><div class="row"><h3>Level 2</h3><span class="no">02</span></div>
+              <p>The same classic latte, made with a step-up level of matcha.</p><span class="price">₱260</span>
+              <div class="more"><div><a href="https://m.me/heymatchapeople">Ask about it <svg viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 20 20 1M5 1h15v15"/></svg></a></div></div></article>
+            <article class="card" tabindex="0" data-card="2"><div class="row"><h3>Blend 03</h3><span class="no">03</span></div>
+              <p>The classic latte, made with their blend 03 matcha.</p><span class="price">₱270</span>
+              <div class="more"><div><a href="https://m.me/heymatchapeople">Ask about it <svg viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 20 20 1M5 1h15v15"/></svg></a></div></div></article>
+            <article class="card" tabindex="0" data-card="3"><div class="row"><h3>Okumidori</h3><span class="no">04</span></div>
+              <p>The classic latte, made with okumidori, a Japanese matcha cultivar.</p><span class="price">₱280</span>
+              <div class="more"><div><a href="https://m.me/heymatchapeople">Ask about it <svg viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 20 20 1M5 1h15v15"/></svg></a></div></div></article>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="end">
+  <a class="pill" href="https://m.me/heymatchapeople">Message Hey Matcha People</a>
+  <nav aria-label="Other versions"><a href="../">See Option A</a><a href="../v2/">See Option B</a><a href="https://www.instagram.com/heymatchapeople/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/heymatchapeople" target="_blank" rel="noopener">Facebook</a></nav>
+  <p>© 2026 Hey Matcha People · Concept website. <a href="https://kendamin.github.io/" target="_blank" rel="noopener">Watermark by Ken Abuda</a></p>
+</footer>
+
+<dialog class="msg" id="msgDialog" closedby="any" aria-labelledby="msg-title">
+  <div class="msg-inner">
+    <div class="msg-head">
+      <div><h2 id="msg-title">Message Hey Matcha People</h2><p>Ask where the next pop-up is, or anything about the menu.</p></div>
+      <form method="dialog"><button class="msg-close" aria-label="Close">✕</button></form>
+    </div>
+    <a class="btn btn-solid" id="msgApp" hidden href="fb-messenger://user-thread/61582341034482">Open Messenger app</a>
+    <a class="btn" href="https://ig.me/m/heymatchapeople" target="_blank" rel="noopener">Message on Instagram</a>
+    <a class="btn" href="https://m.me/heymatchapeople" target="_blank" rel="noopener">Message on Facebook</a>
+    <a class="btn" href="mailto:heymatchapeople@gmail.com">Send an email</a>
+    <div class="msg-note" id="msgNote" hidden>
+      <p>See <strong>"Get the Messenger app"</strong>? Tap <strong>Open in Messenger</strong> below it instead.</p>
+      <p>Still not opening? Tap <strong>•••</strong> and choose <strong>Open in browser</strong>.</p>
+    </div>
+  </div>
+</dialog>
+
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="../assets/site.js" defer></script>
+<script>
+(() => {
+  gsap.registerPlugin(ScrollTrigger);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobileMQ = matchMedia("(max-width: 1023px)");
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+
+  // ---------- the logo is the "iris" we zoom into (source px of img/hero.webp, 2752 x 1536)
+  const LOGO = { x: 1990, y: 845, r: 225 };
+  const onScreenR = () => (mobileMQ.matches ? 170 : 210);
+  const view = { zoom: 0, extra: 0 };
+
+  // ---------- headline: one span per character
+  $$("[data-line]").forEach(line => {
+    const t = line.textContent; line.textContent = "";
+    for (const c of t) { const s = document.createElement("span"); s.className = "ch"; s.dataset.char = ""; s.textContent = c; line.append(s); }
+  });
+
+  // ---------- ring around the logo (SVG built in code)
+  const hud = $("#hud"), NS = "http://www.w3.org/2000/svg";
+  const point = (deg, r) => { const a = deg * Math.PI / 180; return `${(r * Math.cos(a)).toFixed(2)} ${(r * Math.sin(a)).toFixed(2)}`; };
+  const arc = ([f, t]) => `M ${point(f, 265)} A 265 265 0 ${t - f > 180 ? 1 : 0} 1 ${point(t, 265)}`;
+  const circle = (r, f) => `M ${point(f, r)} A ${r} ${r} 0 1 1 ${point(f + 180, r)} A ${r} ${r} 0 1 1 ${point(f, r)}`;
+  let svg = `<defs>
+    <clipPath id="scanClip"><circle r="205"/></clipPath>
+    <filter id="bloom" x="-20%" y="-20%" width="140%" height="140%">
+      <feFlood style="flood-color:var(--hud-glow)" result="c"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="b1"/><feComposite in="c" in2="b1" operator="in" result="g1"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="b2"/><feComposite in="c" in2="b2" operator="in" result="g2"/>
+      <feMerge><feMergeNode in="g2"/><feMergeNode in="g1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <path id="labelPath" d="${circle(292, -90)}"/>
+  </defs><g class="hud-scan" clip-path="url(#scanClip)" stroke="#fff" stroke-opacity=".22" stroke-width="1">`;
+  for (let y = -201; y <= 199; y += 8) svg += `<path d="M -205 ${y} H 205"/>`;
+  svg += `</g><g class="hud-mesh" fill="none" stroke="#fff" stroke-width=".75" stroke-opacity=".5"><circle r="150"/><circle r="190"/>`;
+  let dots = "";
+  for (let a = 0; a < 360; a += 15) { svg += `<path d="M ${point(a, 105)} L ${point(a, 190)}"/>`; for (const r of [150, 190]) { const [x, y] = point(a, r).split(" "); dots += `<circle cx="${x}" cy="${y}" r="1.6"/>`; } }
+  svg += `<g fill="#fff" stroke="none">${dots}</g>
+    <text class="hud-label"><textPath href="#labelPath">HEY MATCHA PEOPLE · DAVAO · GENSAN · WHISKED TO ORDER · HEY MATCHA PEOPLE · DAVAO · GENSAN ·</textPath></text></g>
+    <g class="hud-strokes" filter="url(#bloom)">
+      <g class="hud-ring">${[[121, 257], [270, 338], [27, 60]].map(a => `<path pathLength="1" data-draw d="${arc(a)}"/>`).join("")}</g>
+      <path pathLength="1" data-draw d="M 0 0 H -300"/><path pathLength="1" data-draw d="M 0 0 H 305"/>
+      <path class="thin" pathLength="1" data-draw d="${circle(80, -90)}"/><path class="thin" pathLength="1" data-draw d="${circle(105, 90)}"/>
+    </g>`;
+  hud.innerHTML = svg;
+
+  // ---------- portrait canvas: redraws only the visible part of the 2K still, so the zoom stays sharp
+  const cv = $("[data-scene=portrait]"), ctx = cv.getContext("2d");
+  let img = null, last = "";
+  const unit = () => $("#probe").getBoundingClientRect().width / 100;
+  function draw() {
+    const W = cv.clientWidth, H = cv.clientHeight; if (!img || !W || !H) return;
+    const key = [W, H, view.zoom.toFixed(4), view.extra.toFixed(4)].join(); if (key === last) return; last = key;
+    const d = Math.min(devicePixelRatio || 1, 2);
+    if (cv.width !== Math.round(W * d)) { cv.width = Math.round(W * d); cv.height = Math.round(H * d); }
+    const iw = img.width, ih = img.height, mob = mobileMQ.matches;
+    const s0 = Math.max(W / iw, H / ih);
+    // desktop: centred like a cover image; phone: slide sideways so the cup sits in the middle
+    let left0 = (W - iw * s0) / 2;
+    if (mob) left0 = Math.min(0, Math.max(W - iw * s0, W * .5 - LOGO.x * s0));
+    const top0 = (H - ih * s0) * 0.25;
+    const q0 = { x: left0 + LOGO.x * s0, y: top0 + LOGO.y * s0 };
+    const s1 = Math.max(s0 * 1.05, (onScreenR() * unit()) / LOGO.r);
+    const s = s0 * Math.pow(s1 / s0, view.zoom), w = (s - s0) / (s1 - s0);
+    const qx = q0.x + (W / 2 - q0.x) * w, qy = q0.y + (H / 2 - q0.y) * w;
+    const scale = s * (1 + 0.3 * view.extra);
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+    ctx.fillStyle = "#0B2816"; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.drawImage(img, LOGO.x - qx / scale, LOGO.y - qy / scale, W / scale, H / scale, 0, 0, cv.width, cv.height);
+  }
+  (function loop() { draw(); requestAnimationFrame(loop); })();
+  new ResizeObserver(() => { last = ""; }).observe(cv);
+
+  // ---------- intro, once the photo and both font weights are ready
+  const ready = Promise.all([
+    fetch("img/hero.webp").then(r => r.blob()).then(b => createImageBitmap(b)).then(b => { img = b; }).catch(e => console.error("hero photo failed", e)),
+    document.fonts.load('400 1em "Instrument Sans"'), document.fonts.load('500 1em "Instrument Sans"'), document.fonts.load('400 1em "Instrument Serif"')
+  ]);
+  ready.then(() => {
+    const R = n => `[data-reveal="${n}"]`;
+    const end = { opacity: 1, y: 0, filter: "blur(0px)", clearProps: "filter,transform" };
+    if (reduce) {
+      gsap.to(["[data-scene=portrait]", R("header"), R("label"), R("headline"), R("body"), R("buttons"), R("scroll"), R("callout")], { opacity: 1, duration: .4, ease: "power1.out" });
+      return;
+    }
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+    tl.fromTo("[data-scene=portrait]", { opacity: 0, filter: "blur(40px)" }, { opacity: 1, filter: "blur(0px)", duration: .9, clearProps: "filter" }, 0)
+      .fromTo(R("header"), { opacity: 0, y: 24, filter: "blur(8px)" }, { ...end, duration: .45 }, .1)
+      .fromTo(R("label"), { opacity: 0, y: 20, filter: "blur(8px)" }, { ...end, duration: .45 }, .1)
+      .fromTo(R("body"), { opacity: 0, y: 30, filter: "blur(8px)" }, { ...end, duration: .5 }, .35)
+      .set(R("headline"), { opacity: 1 }, .35);
+    $$("[data-line]").forEach((line, i) => tl.fromTo(line.querySelectorAll("[data-char]"), { opacity: 0, yPercent: 35, filter: "blur(12px)" },
+      { opacity: 1, yPercent: 0, filter: "blur(0px)", duration: .4, stagger: .02, clearProps: "filter,transform" }, .35 + i * .12));
+    tl.fromTo(R("buttons"), { opacity: 0, y: 20, filter: "blur(8px)" }, { ...end, duration: .5 }, .55)
+      .fromTo(R("scroll"), { opacity: 0, y: 20, filter: "blur(8px)" }, { ...end, duration: .5 }, .6)
+      .fromTo(R("callout"), { opacity: 0, y: 16, filter: "blur(10px)" }, { ...end, duration: .4 }, .95);
+  });
+
+  // ---------- scroll scene (3 units = 3 screens)
+  const head = $(".head"), cups = $("#cups");
+  const st = { trigger: "[data-scene=scene]", start: "top top", end: "bottom bottom", scrub: 1, invalidateOnRefresh: true };
+  const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: st });
+  const headTo = { "--hc": "#1C3322", "--hl": "rgba(28,51,34,.12)", "--hb": "#236430", "--ht": "#F4F1E2" };
+  if (reduce) {
+    gsap.set(cups, { "--spread": 1 });
+    tl.to("[data-scene=track]", { yPercent: -50, ease: "power1.inOut", duration: .7 }, 1)
+      .to("[data-scene=wash]", { opacity: 1, duration: .35 }, 1.4)
+      .to(head, { ...headTo, duration: .35 }, 1.4)
+      .to(cups, { opacity: 1, duration: .4 }, 1.5)
+      .set({}, {}, 3);
+  } else {
+    const blur = { px: 16 };
+    tl.to(view, { zoom: 1, ease: "power1.inOut", duration: 1 }, 0)
+      .to("[data-scene=scrim]", { opacity: 0, duration: .8 }, .2)
+      .fromTo(hud, { opacity: 0, scale: .9 }, { opacity: 1, scale: 1, ease: "power2.out", duration: .4, svgOrigin: "0 0" }, .65)
+      .fromTo("#hud [data-draw]", { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: "power2.out", duration: .4 }, .65)
+      .fromTo("#hud .hud-ring", { rotation: -20, svgOrigin: "0 0" }, { rotation: 25, svgOrigin: "0 0", duration: 1.05 }, .65)
+      .fromTo("#hud .hud-scan", { opacity: 0 }, { opacity: 1, duration: .3 }, .75)
+      .fromTo("#hud .hud-mesh", { opacity: 0, scale: .92, svgOrigin: "0 0" }, { opacity: 1, scale: 1, svgOrigin: "0 0", ease: "power2.out", duration: .25 }, .95)
+      .to("[data-scene=track]", { yPercent: -50, ease: "power1.inOut", duration: .7 }, 1)
+      .to(view, { extra: 1, ease: "power1.in", duration: .35 }, 1.4)
+      .to("[data-scene=wash]", { opacity: 1, ease: "power1.inOut", duration: .35 }, 1.4)
+      .to(head, { ...headTo, duration: .35 }, 1.4)
+      .to(hud, { opacity: 0, scale: 1.3, ease: "power1.in", duration: .3, svgOrigin: "0 0" }, 1.4)
+      .fromTo(cups, { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, ease: "power2.out", duration: .4 }, 1.5)
+      .fromTo(blur, { px: 16 }, { px: 0, ease: "power2.out", duration: .4,
+        onUpdate: () => { cups.style.filter = blur.px > .05 && blur.px < 15.95 ? `blur(${blur.px}px)` : ""; } }, 1.5)
+      .fromTo(cups, { "--spread": 0 }, { "--spread": 1, ease: "power2.inOut", duration: .6 }, 2.2)
+      .set({}, {}, 3);
+  }
+  mobileMQ.addEventListener("change", () => { last = ""; ScrollTrigger.refresh(); });
+
+  // "See the four grades": jump to the end of the scene
+  $$('a[href="#grades"]').forEach(a => a.addEventListener("click", e => {
+    e.preventDefault(); const sc = $("[data-scene=scene]");
+    scrollTo({ top: sc.offsetTop + sc.offsetHeight - innerHeight, behavior: reduce ? "auto" : "smooth" });
+  }));
+
+  // ---------- active card lights its cup
+  const cards = $$(".card"), cupEls = $$(".cup");
+  const setActive = i => { cards.forEach((c, k) => c.dataset.active = k === i); cupEls.forEach((c, k) => c.classList.toggle("on", k === i)); };
+  cards.forEach((c, i) => {
+    c.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") setActive(i); });
+    c.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") setActive(null); });
+    c.addEventListener("focus", () => setActive(i));
+    c.addEventListener("blur", () => setActive(null));
+  });
+
+  // ---------- cursor
+  if (matchMedia("(hover:hover) and (pointer:fine)").matches) {
+    const cur = $("#cursor"); let x = innerWidth / 2, y = innerHeight / 2, tx = x, ty = y, t0 = performance.now();
+    addEventListener("mousemove", e => { tx = e.clientX; ty = e.clientY; cur.style.opacity = 1; });
+    document.addEventListener("mouseout", e => { if (!e.relatedTarget) cur.style.opacity = 0; });
+    (function follow(t) { const k = 1 - Math.pow(.7, (t - t0) / 16.67); t0 = t; x += (tx - x) * k; y += (ty - y) * k;
+      cur.style.transform = `translate3d(${x}px,${y}px,0)`; requestAnimationFrame(follow); })(t0);
+  }
+})();
+</script>
+</body>
+</html>
