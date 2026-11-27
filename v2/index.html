@@ -293,10 +293,10 @@ document.addEventListener('click', function (e) {
     <h2 id="menu-title" class="rise">matcha series</h2>
     <p class="sub">Two menus, prices as printed on each.<br><span style="white-space:nowrap"><span class="star">★</span> best seller</span> · <span style="white-space:nowrap">👍 recommended</span></p>
     <div class="menutabs" role="tablist" aria-label="Menus">
-      <button type="button" role="tab" id="tab1" aria-controls="menu1" aria-selected="false">Menu 1</button>
-      <button type="button" role="tab" id="tab2" aria-controls="menu2" aria-selected="true">Menu 2</button>
+      <button type="button" role="tab" id="tab1" aria-controls="menu1" aria-selected="true">Menu 1</button>
+      <button type="button" role="tab" id="tab2" aria-controls="menu2" aria-selected="false">Menu 2</button>
     </div>
-  <div id="menu1" role="tabpanel" aria-labelledby="tab1" hidden>
+  <div id="menu1" role="tabpanel" aria-labelledby="tab1">
     <ul class="grid">
       <li><span class="cupbox"><img src="../assets/cups/matcha-latte.webp" width="185" height="190" alt="" loading="lazy"><span class="mark star" aria-label="best seller">★</span></span><b>matcha latte</b><span class="p">220</span></li>
       <li><span class="cupbox"><img src="../assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></span><b>sea salt matcha</b><span class="p">235</span></li>
@@ -310,7 +310,7 @@ document.addEventListener('click', function (e) {
     </ul>
     <p class="pill">additional matcha +30 per gram</p>
   </div>
-  <div id="menu2" role="tabpanel" aria-labelledby="tab2">
+  <div id="menu2" role="tabpanel" aria-labelledby="tab2" hidden>
     <div class="classic rise">
       <img src="../assets/cups/classic-real.webp" width="395" height="436" alt="Classic matcha latte in a Hey Matcha People cup" loading="lazy">
       <div>

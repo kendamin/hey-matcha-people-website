@@ -344,10 +344,10 @@ document.addEventListener('click', function (e) {
       </div>
       <div>
         <div class="menutabs" role="tablist" aria-label="Menus">
-          <button type="button" role="tab" id="tab1" aria-controls="drinks1" aria-selected="false">Menu 1</button>
-          <button type="button" role="tab" id="tab2" aria-controls="drinks2" aria-selected="true">Menu 2</button>
+          <button type="button" role="tab" id="tab1" aria-controls="drinks1" aria-selected="true">Menu 1</button>
+          <button type="button" role="tab" id="tab2" aria-controls="drinks2" aria-selected="false">Menu 2</button>
         </div>
-        <ul class="drinks" id="drinks1" role="tabpanel" aria-labelledby="tab1" data-extra="additional matcha +30 per gram" hidden>
+        <ul class="drinks" id="drinks1" role="tabpanel" aria-labelledby="tab1" data-extra="additional matcha +30 per gram">
           <li><button class="drink" type="button" aria-pressed="false" data-img="matcha-latte" data-tag="★ best seller"><span class="th"><img src="assets/cups/matcha-latte.webp" width="185" height="190" alt="" loading="lazy"></span><span><b>matcha latte <span class="star" aria-label="best seller">★</span></b></span><span class="pr">220</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></span><span><b>sea salt matcha</b></span><span class="pr">235</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="earl-grey"><span class="th"><img src="assets/cups/earl-grey.webp" width="223" height="236" alt="" loading="lazy"></span><span><b>earl grey matcha</b></span><span class="pr">235</span></button></li>
@@ -358,7 +358,7 @@ document.addEventListener('click', function (e) {
           <li><button class="drink" type="button" aria-pressed="false" data-img="black-sesame" data-tag="★ best seller"><span class="th"><img src="assets/cups/black-sesame.webp" width="190" height="207" alt="" loading="lazy"></span><span><b>black sesame matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">250</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="banana-pudding" data-tag="★ best seller"><span class="th"><img src="assets/cups/banana-pudding.webp" width="179" height="235" alt="" loading="lazy"></span><span><b>banana pudding matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">275</span></button></li>
         </ul>
-        <ul class="drinks" id="drinks2" role="tabpanel" aria-labelledby="tab2" data-extra="additional matcha +35 per gram">
+        <ul class="drinks" id="drinks2" role="tabpanel" aria-labelledby="tab2" data-extra="additional matcha +35 per gram" hidden>
           <li><button class="drink" type="button" aria-pressed="true" data-img="classic-real" data-levels="1"><span class="th"><img src="assets/cups/classic-real.webp" width="395" height="436" alt="" loading="lazy"></span><span><b>classic latte</b><small>level 1, level 2, blend 03, okumidori</small></span><span class="pr">240</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="sea-salt"><span class="th"><img src="assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></span><b>sea salt matcha</b><span class="pr">260</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="cream-cheese"><span class="th"><img src="assets/cups/cream-cheese.webp" width="215" height="236" alt="" loading="lazy"></span><b>cream cheese matcha</b><span class="pr">265</span></button></li>
@@ -367,7 +367,7 @@ document.addEventListener('click', function (e) {
           <li><button class="drink" type="button" aria-pressed="false" data-img="toasted-milk" data-tag="★ best seller"><span class="th"><img src="assets/cups/toasted-milk.webp" width="215" height="228" alt="" loading="lazy"></span><span><b>toasted milk matcha <span class="star" aria-label="best seller">★</span></b></span><span class="pr">260</span></button></li>
           <li><button class="drink" type="button" aria-pressed="false" data-img="kinako" data-tag="👍 recommended"><span class="th"><img src="assets/cups/kinako.webp" width="211" height="243" alt="" loading="lazy"></span><span><b>kinako cream matcha <span aria-label="recommended">👍</span></b></span><span class="pr">280</span></button></li>
         </ul>
-        <p class="pill" id="extra">additional matcha +35 per gram</p>
+        <p class="pill" id="extra">additional matcha +30 per gram</p>
       </div>
     </div>
   </section>
@@ -586,6 +586,7 @@ document.addEventListener('click', function (e) {
     };
     if (animate && document.startViewTransition && !reduce) document.startViewTransition(update); else update();
   }
+  pick(document.querySelector("#drinks1 .drink"), false);   // Menu 1 opens first
   sw.addEventListener("click", e => {
     const tab = e.target.closest('[role="tab"]');
     if (tab) {
