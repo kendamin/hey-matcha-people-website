@@ -67,16 +67,6 @@
   @media (max-width:1023px){.scrim{background:linear-gradient(180deg,rgba(9,32,16,.7) 0%,transparent 34%,transparent 58%,rgba(9,32,16,.85) 100%)}}
   .wash{position:absolute;inset:0;background:var(--bg);opacity:0}
 
-  /* ring around the logo */
-  .hud-wrap{position:absolute;left:50%;top:50%;translate:-50% -50%;width:calc(640 * var(--u));height:calc(640 * var(--u));mix-blend-mode:screen}
-  .hud-wrap svg{width:100%;height:100%;display:block;overflow:visible;opacity:0}
-  .hud-scan{opacity:0}
-  .hud-mesh{opacity:0}
-  .hud-strokes{fill:none;stroke:var(--hud);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
-  .hud-strokes .thin{stroke:#fff;stroke-width:1.5}
-  .hud-label{font:600 11px var(--sans);letter-spacing:.32em;fill:var(--hud);opacity:.8}
-  @media (max-width:1023px){.hud-wrap{width:calc(640 * var(--u) * 170 / 210);height:calc(640 * var(--u) * 170 / 210)}}
-
   /* the four grade cups */
   .cups{position:absolute;left:50%;top:54%;width:0;height:0;opacity:0;--spread:0}
   .cup{position:absolute;left:0;top:0;translate:calc(-50% + var(--i) * var(--cup-step) * var(--spread)) -50%;z-index:var(--z,1)}
@@ -392,9 +382,6 @@ document.addEventListener('click', function (e) {
         <canvas class="portrait" data-scene="portrait" aria-hidden="true"></canvas>
         <div class="scrim" data-scene="scrim"></div>
         <div class="wash" data-scene="wash"></div>
-        <div class="hud-wrap" aria-hidden="true">
-          <svg viewBox="-320 -320 640 640" data-scene="hud" id="hud"></svg>
-        </div>
         <div class="cups" data-scene="cups" id="cups">
           <div class="cup" style="--i:-1.5;--z:2" data-cup="0"><span class="glow"></span><img src="img/cup-level-1.webp" width="906" height="960" alt=""><span class="tag">level 1</span></div>
           <div class="cup" style="--i:-0.5;--z:4" data-cup="1"><span class="glow"></span><img src="img/cup-level-2.webp" width="906" height="960" alt=""><span class="tag">level 2</span></div>
@@ -574,33 +561,6 @@ document.addEventListener('click', function (e) {
     for (const c of t) { const s = document.createElement("span"); s.className = "ch"; s.dataset.char = ""; s.textContent = c; line.append(s); }
   });
 
-  // ---------- ring around the logo (SVG built in code)
-  const hud = $("#hud"), NS = "http://www.w3.org/2000/svg";
-  const point = (deg, r) => { const a = deg * Math.PI / 180; return `${(r * Math.cos(a)).toFixed(2)} ${(r * Math.sin(a)).toFixed(2)}`; };
-  const arc = ([f, t]) => `M ${point(f, 265)} A 265 265 0 ${t - f > 180 ? 1 : 0} 1 ${point(t, 265)}`;
-  const circle = (r, f) => `M ${point(f, r)} A ${r} ${r} 0 1 1 ${point(f + 180, r)} A ${r} ${r} 0 1 1 ${point(f, r)}`;
-  let svg = `<defs>
-    <clipPath id="scanClip"><circle r="205"/></clipPath>
-    <filter id="bloom" x="-20%" y="-20%" width="140%" height="140%">
-      <feFlood style="flood-color:var(--hud-glow)" result="c"/>
-      <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="b1"/><feComposite in="c" in2="b1" operator="in" result="g1"/>
-      <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="b2"/><feComposite in="c" in2="b2" operator="in" result="g2"/>
-      <feMerge><feMergeNode in="g2"/><feMergeNode in="g1"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <path id="labelPath" d="${circle(292, -90)}"/>
-  </defs><g class="hud-scan" clip-path="url(#scanClip)" stroke="#fff" stroke-opacity=".22" stroke-width="1">`;
-  for (let y = -201; y <= 199; y += 8) svg += `<path d="M -205 ${y} H 205"/>`;
-  svg += `</g><g class="hud-mesh" fill="none" stroke="#fff" stroke-width=".75" stroke-opacity=".5"><circle r="150"/><circle r="190"/>`;
-  let dots = "";
-  for (let a = 0; a < 360; a += 15) { svg += `<path d="M ${point(a, 105)} L ${point(a, 190)}"/>`; for (const r of [150, 190]) { const [x, y] = point(a, r).split(" "); dots += `<circle cx="${x}" cy="${y}" r="1.6"/>`; } }
-  svg += `<g fill="#fff" stroke="none">${dots}</g>
-    <text class="hud-label"><textPath href="#labelPath">HEY MATCHA PEOPLE · DAVAO · GENSAN · WHISKED TO ORDER · HEY MATCHA PEOPLE · DAVAO · GENSAN ·</textPath></text></g>
-    <g class="hud-strokes" filter="url(#bloom)">
-      <g class="hud-ring">${[[121, 257], [270, 338], [27, 60]].map(a => `<path pathLength="1" data-draw d="${arc(a)}"/>`).join("")}</g>
-      <path pathLength="1" data-draw d="M 0 0 H -300"/><path pathLength="1" data-draw d="M 0 0 H 305"/>
-      <path class="thin" pathLength="1" data-draw d="${circle(80, -90)}"/><path class="thin" pathLength="1" data-draw d="${circle(105, 90)}"/>
-    </g>`;
-  hud.innerHTML = svg;
 
   // ---------- portrait canvas: redraws only the visible part of the 2K still, so the zoom stays sharp
   const cv = $("[data-scene=portrait]"), ctx = cv.getContext("2d");
@@ -670,16 +630,10 @@ document.addEventListener('click', function (e) {
     const blur = { px: 16 };
     tl.to(view, { zoom: 1, ease: "power1.inOut", duration: 1 }, 0)
       .to("[data-scene=scrim]", { opacity: 0, duration: .8 }, .2)
-      .fromTo(hud, { opacity: 0, scale: .9 }, { opacity: 1, scale: 1, ease: "power2.out", duration: .4, svgOrigin: "0 0" }, .65)
-      .fromTo("#hud [data-draw]", { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: "power2.out", duration: .4 }, .65)
-      .fromTo("#hud .hud-ring", { rotation: -20, svgOrigin: "0 0" }, { rotation: 25, svgOrigin: "0 0", duration: 1.05 }, .65)
-      .fromTo("#hud .hud-scan", { opacity: 0 }, { opacity: 1, duration: .3 }, .75)
-      .fromTo("#hud .hud-mesh", { opacity: 0, scale: .92, svgOrigin: "0 0" }, { opacity: 1, scale: 1, svgOrigin: "0 0", ease: "power2.out", duration: .25 }, .95)
       .to("[data-scene=track]", { yPercent: -50, ease: "power1.inOut", duration: .7 }, 1)
       .to(view, { extra: 1, ease: "power1.in", duration: .35 }, 1.4)
       .to("[data-scene=wash]", { opacity: 1, ease: "power1.inOut", duration: .35 }, 1.4)
       .to(head, { ...headTo, duration: .35 }, 1.4)
-      .to(hud, { opacity: 0, scale: 1.3, ease: "power1.in", duration: .3, svgOrigin: "0 0" }, 1.4)
       .fromTo(cups, { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, ease: "power2.out", duration: .4 }, 1.5)
       .fromTo(blur, { px: 16 }, { px: 0, ease: "power2.out", duration: .4,
         onUpdate: () => { cups.style.filter = blur.px > .05 && blur.px < 15.95 ? `blur(${blur.px}px)` : ""; } }, 1.5)
