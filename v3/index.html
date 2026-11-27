@@ -160,6 +160,110 @@
     .card p{margin-top:calc(16 * var(--u))}
   }
 
+  /* ---------- content pages (after the scroll scene) ---------- */
+  .pg{position:relative;padding:calc(120 * var(--u)) var(--edge);background:var(--bg)}
+  .pg-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:calc(20 * var(--u));margin-bottom:calc(48 * var(--u))}
+  .pg-h h2{font:400 calc(84 * var(--u))/.9 var(--serif);letter-spacing:-.01em}
+  .pg-h h2 em{color:var(--green)}
+  .pg-h p{max-width:calc(380 * var(--u));color:#56684F}
+  .eyeb{display:block;font-size:calc(14 * var(--u));color:var(--muted);margin-bottom:calc(16 * var(--u))}
+  @media (prefers-reduced-motion:no-preference){@supports (animation-timeline:view()){
+    .rise{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 40%}
+    @keyframes rise{from{opacity:0;translate:0 calc(30 * var(--u));filter:blur(8px)}to{opacity:1;translate:0 0;filter:blur(0)}}}}
+
+  /* menu */
+  .tabs{display:inline-flex;gap:4px;padding:4px;border-radius:99px;box-shadow:inset 0 0 0 1px rgba(28,51,34,.15);background:var(--card);margin-top:calc(18 * var(--u))}
+  .tabs button{height:calc(44 * var(--u));padding:0 calc(22 * var(--u));border-radius:99px;font-weight:500;transition:background-color .3s var(--ease),color .3s var(--ease)}
+  .tabs [aria-selected="true"]{background:var(--green);color:var(--cream)}
+  [role="tabpanel"][hidden]{display:none}
+  .mgrid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(250 * var(--u))),1fr));gap:calc(14 * var(--u))}
+  .mi{position:relative;background:var(--card);border-radius:calc(28 * var(--u));padding:calc(24 * var(--u)) calc(24 * var(--u)) calc(22 * var(--u));display:grid;grid-template-rows:auto 1fr auto;gap:calc(10 * var(--u));
+    box-shadow:0 calc(10 * var(--u)) calc(30 * var(--u)) rgba(28,51,34,.06);transition:background-color .3s var(--ease),color .3s var(--ease),translate .3s var(--ease)}
+  .mi{min-width:0}
+  .mi .ph{height:calc(190 * var(--u));display:flex;align-items:flex-end;justify-content:center;min-width:0}
+  .mi .ph img{height:100%;width:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 calc(14 * var(--u)) calc(16 * var(--u)) rgba(28,51,34,.18));transition:transform .35s var(--ease)}
+  .mi .rw{display:flex;justify-content:space-between;align-items:baseline;gap:calc(10 * var(--u))}
+  .mi h3{font:500 calc(20 * var(--u))/1.2 var(--sans)}
+  .mi .pr{font:400 calc(30 * var(--u))/1 var(--serif);color:var(--green);transition:color .3s var(--ease)}
+  .mi .bs{position:absolute;top:calc(18 * var(--u));right:calc(18 * var(--u));font-size:calc(12 * var(--u));padding:calc(5 * var(--u)) calc(10 * var(--u));border-radius:99px;background:#F7E8C4;color:#8A5A07}
+  .mi small{color:var(--muted);font-size:calc(14 * var(--u))}
+  @media (hover:hover){.mi:hover{background:var(--green);color:var(--cream);translate:0 calc(-6 * var(--u))}.mi:hover .pr,.mi:hover small{color:var(--cream)}.mi:hover .ph img{transform:translateY(calc(-8 * var(--u))) scale(1.05)}}
+  .extra{margin-top:calc(28 * var(--u));display:inline-block;padding:calc(12 * var(--u)) calc(22 * var(--u));border-radius:99px;box-shadow:inset 0 0 0 1px rgba(28,51,34,.2)}
+
+  /* hojicha */
+  .hoji{background:#2A1E14;color:#F3E8D6;overflow:hidden;isolation:isolate}
+  .hoji .swirl-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;opacity:.55}
+  .hoji::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(42,30,20,.92) 0%,rgba(42,30,20,.7) 45%,rgba(42,30,20,.25) 100%)}
+  .hoji .pg-h h2 em{color:#E7C79B}
+  .hoji .pg-h p{color:#D9C8AE}
+  .hwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:calc(48 * var(--u));align-items:center}
+  .hwrap img{width:min(100%,calc(420 * var(--u)));justify-self:center;filter:drop-shadow(0 calc(30 * var(--u)) calc(40 * var(--u)) rgba(0,0,0,.45))}
+  .roasts{display:flex;gap:calc(14 * var(--u));margin-bottom:calc(30 * var(--u))}
+  .roast{flex:1;padding:calc(22 * var(--u));border-radius:calc(24 * var(--u));background:rgba(243,232,214,.08);box-shadow:inset 0 0 0 1px rgba(243,232,214,.18)}
+  .roast b{display:block;font:400 calc(40 * var(--u))/1 var(--serif);color:#E7C79B;margin-top:calc(8 * var(--u))}
+  .adds{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 calc(32 * var(--u))}
+  .adds li{display:flex;justify-content:space-between;padding:calc(12 * var(--u)) 0;border-bottom:1px solid rgba(243,232,214,.16)}
+  .hoji .extra{box-shadow:inset 0 0 0 1px rgba(243,232,214,.3)}
+
+  /* exclusives */
+  .exg{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:calc(14 * var(--u))}
+  .ex{position:relative;border-radius:calc(28 * var(--u));overflow:hidden;min-height:calc(460 * var(--u));color:#fff;isolation:isolate}
+  .ex img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .8s var(--ease)}
+  .ex::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(10,20,12,.85) 0%,rgba(10,20,12,0) 55%)}
+  .ex div{position:absolute;left:calc(26 * var(--u));right:calc(26 * var(--u));bottom:calc(24 * var(--u))}
+  .ex h3{font:400 calc(40 * var(--u))/1 var(--serif);margin-bottom:calc(10 * var(--u))}
+  .ex p{font-size:calc(15 * var(--u));line-height:1.35;opacity:.9}
+  .ex small{display:block;margin-top:calc(10 * var(--u));font-size:calc(12 * var(--u));letter-spacing:.08em;text-transform:uppercase;color:var(--sprout)}
+  @media (hover:hover){.ex:hover img{transform:scale(1.05)}}
+
+  /* pop-ups */
+  .pops{background:var(--deep);color:var(--cream)}
+  .pops .pg-h h2 em{color:var(--sprout)}.pops .pg-h p{color:#C9D3BE}
+  .plist{list-style:none;border-top:1px solid var(--line)}
+  .plist li{display:grid;grid-template-columns:calc(110 * var(--u)) minmax(0,1.3fr) minmax(0,1fr) auto;gap:calc(24 * var(--u));align-items:baseline;padding:calc(22 * var(--u)) 0;border-bottom:1px solid var(--line);transition:padding .3s var(--ease),background-color .3s}
+  .plist .city{font-size:calc(12 * var(--u));letter-spacing:.16em;text-transform:uppercase;color:var(--sprout)}
+  .plist h3{font:400 calc(34 * var(--u))/1 var(--serif)}
+  .plist p{color:#C9D3BE}
+  .plist time{font-variant-numeric:tabular-nums;white-space:nowrap}
+  @media (hover:hover){.plist li:hover{padding-left:calc(14 * var(--u));background:rgba(244,241,226,.04)}}
+  .pops .pill{margin-top:calc(36 * var(--u));height:calc(53 * var(--u));padding:0 calc(24 * var(--u));background:var(--cream);color:var(--deep);font-weight:500}
+
+  /* birthday */
+  .bday{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:calc(56 * var(--u));align-items:center}
+  .bday img{width:100%;max-height:78svh;aspect-ratio:4/5;object-fit:cover;border-radius:calc(32 * var(--u));justify-self:center}
+  .bday h2{font:400 calc(84 * var(--u))/.9 var(--serif);margin-bottom:calc(22 * var(--u))}
+  .bday h2 em{color:var(--green)}
+  .bday p{color:#56684F;max-width:calc(420 * var(--u))}
+
+  /* ending */
+  .close{position:relative;min-height:90svh;display:grid;place-content:center;text-align:center;padding:calc(120 * var(--u)) var(--edge);overflow:hidden;isolation:isolate}
+  .close .swirl-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+  .close::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 55% 60% at 50% 50%,rgba(243,241,228,.92),rgba(243,241,228,.55))}
+  .close h2{font:400 calc(150 * var(--u))/.82 var(--serif);color:var(--green)}
+  .close p{margin:calc(26 * var(--u)) auto calc(30 * var(--u));max-width:calc(380 * var(--u));color:#56684F}
+  .close .acts{display:flex;gap:calc(12 * var(--u));justify-content:center;flex-wrap:wrap}
+  .close .pill{height:calc(53 * var(--u));padding:0 calc(24 * var(--u))}
+  .close .p1{background:var(--green);color:var(--cream)}
+  .close .p2{box-shadow:inset 0 0 0 1px rgba(28,51,34,.3)}
+
+  @media (max-width:1023px){
+    .pg{padding:calc(80 * var(--u)) var(--edge)}
+    .pg-h h2,.bday h2{font-size:calc(52 * var(--u))}
+    .pg-h p{font-size:calc(16 * var(--u));line-height:calc(19 * var(--u))}
+    .mgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(10 * var(--u))}
+    .mi{padding:calc(16 * var(--u));border-radius:calc(22 * var(--u))}
+    .mi .ph{height:calc(130 * var(--u))}
+    .mi h3{font-size:calc(15 * var(--u))}.mi .pr{font-size:calc(24 * var(--u))}
+    .mi .rw{flex-direction:column;align-items:flex-start;gap:calc(4 * var(--u))}
+    .mi .bs{top:calc(10 * var(--u));right:calc(10 * var(--u))}
+    .hwrap,.bday{grid-template-columns:1fr}
+    .hwrap img{width:calc(240 * var(--u))}
+    .adds{grid-template-columns:1fr}
+    .exg{grid-template-columns:1fr}.ex{min-height:calc(400 * var(--u))}
+    .plist li{grid-template-columns:1fr;gap:calc(6 * var(--u))}
+    .close h2{font-size:calc(74 * var(--u))}
+  }
+
   /* ---------- end ---------- */
   .end{background:var(--bg);padding:calc(56 * var(--u)) var(--edge) max(calc(40 * var(--u)),env(safe-area-inset-bottom));border-top:1px solid rgba(28,51,34,.1);
     display:flex;flex-wrap:wrap;gap:calc(16 * var(--u)) calc(32 * var(--u));justify-content:space-between;align-items:center;font-size:calc(15 * var(--u));color:#56684F}
@@ -225,10 +329,10 @@ document.addEventListener('click', function (e) {
   <a class="logo" href="#" aria-label="Hey Matcha People, back to top"><small>HEY</small>Matcha<i>People</i></a>
   <nav aria-label="Main">
     <a href="#grades">Grades</a>
-    <a href="../#menu">Full menu</a>
-    <a href="../#hojicha">Hojicha</a>
-    <a href="../v2/#popups">Pop-ups</a>
-    <a href="https://www.instagram.com/heymatchapeople/" target="_blank" rel="noopener">Instagram</a>
+    <a href="#menu">Menu</a>
+    <a href="#hojicha">Hojicha</a>
+    <a href="#exclusives">Exclusives</a>
+    <a href="#popups">Pop-ups</a>
   </nav>
   <a class="pill" href="https://m.me/heymatchapeople">Message us</a>
 </header>
@@ -300,10 +404,82 @@ document.addEventListener('click', function (e) {
       </div>
     </div>
   </div>
+
+<section class="pg" id="menu" aria-labelledby="menu-t">
+  <div class="pg-h rise"><div><span class="eyeb">The full menu</span><h2 id="menu-t">matcha <em>series</em></h2></div>
+    <div><p>Two menus, prices as printed on each.</p>
+    <div class="tabs" role="tablist" aria-label="Menus"><button type="button" role="tab" id="t1" aria-controls="p1" aria-selected="false">Menu 1</button><button type="button" role="tab" id="t2" aria-controls="p2" aria-selected="true">Menu 2</button></div></div></div>
+  <div id="p2" role="tabpanel" aria-labelledby="t2"><ul class="mgrid">
+    <li class="mi rise"><div class="ph"><img src="../assets/cups/classic-real.webp" width="395" height="436" alt="" loading="lazy"></div><div class="rw"><h3>classic latte</h3><span class="pr">₱240</span></div><small>level 1 ₱240 · level 2 ₱260 · blend 03 ₱270 · okumidori ₱280</small></li>
+    <li class="mi rise"><div class="ph"><img src="../assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></div><div class="rw"><h3>sea salt matcha</h3><span class="pr">₱260</span></div></li>
+    <li class="mi rise"><div class="ph"><img src="../assets/cups/cream-cheese.webp" width="215" height="236" alt="" loading="lazy"></div><div class="rw"><h3>cream cheese matcha</h3><span class="pr">₱265</span></div></li>
+    <li class="mi rise"><div class="ph"><img src="../assets/cups/strawberry.webp" width="209" height="233" alt="" loading="lazy"></div><div class="rw"><h3>strawberry matcha</h3><span class="pr">₱260</span></div></li>
+    <li class="mi rise"><div class="ph"><img src="../assets/cups/earl-grey.webp" width="223" height="236" alt="" loading="lazy"></div><div class="rw"><h3>earl grey matcha</h3><span class="pr">₱260</span></div></li>
+    <li class="mi rise"><span class="bs">★ best seller</span><div class="ph"><img src="../assets/cups/toasted-milk.webp" width="215" height="228" alt="" loading="lazy"></div><div class="rw"><h3>toasted milk matcha</h3><span class="pr">₱260</span></div></li>
+    <li class="mi rise"><span class="bs">👍 recommended</span><div class="ph"><img src="../assets/cups/kinako.webp" width="211" height="243" alt="" loading="lazy"></div><div class="rw"><h3>kinako cream matcha</h3><span class="pr">₱280</span></div></li>
+  </ul><span class="extra">additional matcha +35 per gram</span></div>
+  <div id="p1" role="tabpanel" aria-labelledby="t1" hidden><ul class="mgrid">
+    <li class="mi rise"><span class="bs">★ best seller</span><div class="ph"><img src="../assets/cups/matcha-latte.webp" width="185" height="190" alt="" loading="lazy"></div><div class="rw"><h3>matcha latte</h3><span class="pr">₱220</span></div></li>
+    <li class="mi rise"><div class="ph"><img src="../assets/cups/sea-salt.webp" width="202" height="231" alt="" loading="lazy"></div><div class="rw"><h3>sea salt matcha</h3><span class="pr">₱235</span></div></li>
+    <li class="mi rise"><div class="ph"><img src="../assets/cups/earl-grey.webp" width="223" height="236" alt="" loading="lazy"></div><div class="rw"><h3>earl grey matcha</h3><span class="pr">₱235</span></div></li>
+    <li class="mi rise"><span class="bs">★ best seller</span><div class="ph"><img src="../assets/cups/cream-cheese.webp" width="215" height="236" alt="" loading="lazy"></div><div class="rw"><h3>cream cheese matcha</h3><span class="pr">₱240</span></div></li>
+    <li class="mi rise"><div class="ph"><img src="../assets/cups/strawberry.webp" width="209" height="233" alt="" loading="lazy"></div><div class="rw"><h3>strawberry matcha</h3><span class="pr">₱240</span></div></li>
+    <li class="mi rise"><div class="ph"><img src="../assets/cups/strawberry-cloud.webp" width="181" height="212" alt="" loading="lazy"></div><div class="rw"><h3>strawberry cloud matcha</h3><span class="pr">₱250</span></div></li>
+    <li class="mi rise"><span class="bs">★ best seller</span><div class="ph"><img src="../assets/cups/signature.webp" width="193" height="204" alt="" loading="lazy"></div><div class="rw"><h3>signature matcha</h3><span class="pr">₱240</span></div></li>
+    <li class="mi rise"><span class="bs">★ best seller</span><div class="ph"><img src="../assets/cups/black-sesame.webp" width="190" height="207" alt="" loading="lazy"></div><div class="rw"><h3>black sesame matcha</h3><span class="pr">₱250</span></div></li>
+    <li class="mi rise"><span class="bs">★ best seller</span><div class="ph"><img src="../assets/cups/banana-pudding.webp" width="179" height="235" alt="" loading="lazy"></div><div class="rw"><h3>banana pudding matcha</h3><span class="pr">₱275</span></div></li>
+  </ul><span class="extra">additional matcha +30 per gram</span></div>
+</section>
+
+<section class="pg hoji" id="hojicha" aria-labelledby="hoji-t">
+  <video class="swirl-bg" muted loop playsinline preload="none" aria-hidden="true" poster="../assets/swirl-hoji-poster.webp" data-d="../assets/swirl-hoji-d.mp4" data-m="../assets/swirl-hoji-m.mp4"></video>
+  <div class="pg-h rise"><div><span class="eyeb">Roasted green tea</span><h2 id="hoji-t">hojicha <em>latte</em></h2></div><p>Two roasts, plus flavour add-ons.</p></div>
+  <div class="hwrap">
+    <div class="rise">
+      <div class="roasts"><div class="roast">medium roast<b>₱230</b></div><div class="roast">dark roast<b>₱240</b></div></div>
+      <ul class="adds" aria-label="Add a flavour"><li><span>sea salt</span><span>+20</span></li><li><span>earl grey</span><span>+20</span></li><li><span>cream cheese</span><span>+25</span></li><li><span>toasted milk</span><span>+20</span></li><li><span>strawberry</span><span>+20</span></li><li><span>kinako cream</span><span>+40</span></li></ul>
+      <span class="extra">additional hojicha +30 per gram</span>
+    </div>
+    <img class="rise" src="../assets/cups/hojicha.webp" width="603" height="653" alt="Iced hojicha latte in a clear Hey Matcha People cup" loading="lazy">
+  </div>
+</section>
+
+<section class="pg" id="exclusives" aria-labelledby="ex-t">
+  <div class="pg-h rise"><div><span class="eyeb">Event exclusives</span><h2 id="ex-t">Made for one <em>event only</em></h2></div><p>Every big pop-up gets its own drink. When it's gone, it's gone (unless enough of you ask).</p></div>
+  <div class="exg">
+    <article class="ex rise"><img src="../assets/ube-lastday-1080.webp" width="1080" height="1350" alt="Ube Flan Matcha in a frozen bamboo cup with ube halaya and leche flan" loading="lazy"><div><h3>Ube Flan Matcha</h3><p>Leche flan cream and ube halaya, served in a frozen bamboo cup.</p><small>Davao Matcha Fest · Gensan Matcha Fest</small></div></article>
+    <article class="ex rise"><img src="../assets/taho-640.webp" width="640" height="800" alt="Matcha Taho poster" loading="lazy"><div><h3>Matcha Taho</h3><p>A Japanese favorite meets a Filipino street-side classic.</p><small>12 Days of Hey Market</small></div></article>
+    <article class="ex rise"><img src="../assets/tsokolate-640.webp" width="640" height="800" alt="Tsokolate Hojicha poster" loading="lazy"><div><h3>Tsokolate Hojicha</h3><p>Tableya hot chocolate with roasted hojicha and toasted marshmallow.</p><small>12 Days of Hey Market</small></div></article>
+  </div>
+</section>
+
+<section class="pg pops" id="popups" aria-labelledby="pop-t">
+  <div class="pg-h rise"><div><span class="eyeb">No fixed shop</span><h2 id="pop-t">Where we've <em>whisked</em></h2></div><p>We pop up around Davao and GenSan, and every schedule goes up on Instagram first.</p></div>
+  <ol class="plist" reversed>
+    <li><span class="city">Davao</span><h3>12 Days of Hey Market</h3><p>Abreeza Activity Center · 10 am to 10 pm</p><time>Nov 14 to 22, 2026</time></li>
+    <li><span class="city">Davao</span><h3>Beyond Sips and Bites</h3><p>Stories Studio, 25 Carmen St, Obrero · 2 pm to 9 pm</p><time>Nov 6 to 8, 2026</time></li>
+    <li><span class="city">GenSan</span><h3>Gensan Matcha Fest</h3><p>SM Gensan Atrium</p><time>Oct 29 to Nov 2, 2026</time></li>
+    <li><span class="city">GenSan</span><h3>NDDU Campus</h3><p>Notre Dame of Dadiangas University</p><time>Oct 17 to 18, 2026</time></li>
+    <li><span class="city">Davao</span><h3>The Tent</h3><p>Azuela Cove</p><time>Oct 15 to 18, 2026</time></li>
+    <li><span class="city">Davao</span><h3>Davao Matcha Fest</h3><p>Abreeza Ayala Mall · 10 am to 9 pm</p><time>Sep 30 to Oct 4, 2026</time></li>
+  </ol>
+  <a class="pill" href="https://www.instagram.com/heymatchapeople/" target="_blank" rel="noopener">Follow for the next pop-up</a>
+</section>
+
+<section class="pg bday" aria-labelledby="bday-t">
+  <img class="rise" src="../assets/birthday-1080.webp" width="1080" height="1350" alt="A birthday matcha drink with sprinkles and a candle, next to a can of Hey Matcha People matcha powder" loading="lazy">
+  <div class="rise"><span class="eyeb">November 7, 2026</span><h2 id="bday-t">One year of <em>whisking</em></h2><p>We turned one on November 7, 2026. Our matcha powder now comes in a can, too. Message us to ask about it.</p></div>
+</section>
+
+<section class="close" aria-labelledby="close-t">
+  <video class="swirl-bg" muted loop playsinline preload="none" aria-hidden="true" poster="../assets/swirl-poster.webp" data-d="../assets/swirl-d.mp4" data-m="../assets/swirl-m.mp4"></video>
+  <h2 id="close-t" class="rise">See you,<br><em>matcha people</em></h2>
+  <p>Ask where we're whisking next, or anything about the menu.</p>
+  <div class="acts"><a class="pill p1" href="https://m.me/heymatchapeople">Message us</a><a class="pill p2" href="mailto:heymatchapeople@gmail.com">heymatchapeople@gmail.com</a></div>
+</section>
 </main>
 
 <footer class="end">
-  <a class="pill" href="https://m.me/heymatchapeople">Message Hey Matcha People</a>
   <nav aria-label="Other versions"><a href="../">See Option A</a><a href="../v2/">See Option B</a><a href="https://www.instagram.com/heymatchapeople/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/heymatchapeople" target="_blank" rel="noopener">Facebook</a></nav>
   <p>© 2026 Hey Matcha People · Concept website. <a href="https://kendamin.github.io/" target="_blank" rel="noopener">Watermark by Ken Abuda</a></p>
 </footer>
@@ -330,6 +506,7 @@ document.addEventListener('click', function (e) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="../assets/site.js" defer></script>
+<script src="../assets/swirl.js" defer></script>
 <script>
 (() => {
   gsap.registerPlugin(ScrollTrigger);
@@ -477,6 +654,12 @@ document.addEventListener('click', function (e) {
     c.addEventListener("focus", () => setActive(i));
     c.addEventListener("blur", () => setActive(null));
   });
+
+  // ---------- menu tabs
+  const tabs = $$('.tabs [role="tab"]');
+  const choose = t => tabs.forEach(x => { x.setAttribute("aria-selected", x === t); document.getElementById(x.getAttribute("aria-controls")).hidden = x !== t; });
+  tabs.forEach((t, i) => { t.addEventListener("click", () => choose(t));
+    t.addEventListener("keydown", e => { if (e.key === "ArrowLeft" || e.key === "ArrowRight") { const n = tabs[(i + 1) % tabs.length]; n.focus(); choose(n); } }); });
 
   // ---------- cursor
   if (matchMedia("(hover:hover) and (pointer:fine)").matches) {
