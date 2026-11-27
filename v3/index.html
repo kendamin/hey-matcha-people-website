@@ -631,6 +631,7 @@ document.addEventListener('click', function (e) {
     tl.to(view, { zoom: 1, ease: "power1.inOut", duration: 1 }, 0)
       .to("[data-scene=scrim]", { opacity: 0, duration: .8 }, .2)
       .to("[data-scene=track]", { yPercent: -50, ease: "power1.inOut", duration: .7 }, 1)
+      .to(".hero", { opacity: 0, ease: "power1.in", duration: .3 }, 1)
       .to(view, { extra: 1, ease: "power1.in", duration: .35 }, 1.4)
       .to("[data-scene=wash]", { opacity: 1, ease: "power1.inOut", duration: .35 }, 1.4)
       .to(head, { ...headTo, duration: .35 }, 1.4)
