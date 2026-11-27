@@ -45,6 +45,8 @@
   /* ---------- header (cream on the photo, ink once the page washes to cream) ---------- */
   .head{position:fixed;top:0;left:0;right:0;z-index:10;height:var(--head-h);padding:0 var(--edge);display:flex;align-items:center;justify-content:space-between;
     color:var(--hc,var(--cream));border-bottom:1px solid var(--hl,var(--line));opacity:0}
+  .head{transition:background-color .3s,backdrop-filter .3s}
+  .head.solid{background:rgba(243,241,228,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
   .logo{display:grid;line-height:.82;font-family:var(--serif);font-size:calc(25 * var(--u))}
   .logo small{font:600 calc(8 * var(--u))/1 var(--sans);letter-spacing:.22em;margin:0 0 calc(2 * var(--u)) calc(2 * var(--u))}
   .logo i{padding-left:calc(9 * var(--u))}
@@ -152,7 +154,8 @@
   .card[data-active="true"] .more{grid-template-rows:1fr}
   @media (max-width:1023px){
     .f-head{top:calc(96 * var(--u))}
-    .lead{left:var(--edge);right:var(--edge);top:calc(196 * var(--u));width:auto;font-size:calc(16 * var(--u));line-height:calc(19 * var(--u))}
+    .f-head{font-size:calc(52 * var(--u))}
+    .lead{left:var(--edge);right:var(--edge);top:calc(212 * var(--u));width:auto;font-size:calc(16 * var(--u));line-height:calc(19 * var(--u))}
     .cards{left:0;right:0;bottom:calc(24 * var(--u));padding:0 calc(20 * var(--u));gap:calc(12 * var(--u));overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 calc(20 * var(--u));scrollbar-width:none;justify-content:flex-start;pointer-events:auto}
     .cards::-webkit-scrollbar{display:none}
     .card{flex:0 0 calc(280 * var(--u));padding:calc(24 * var(--u));border-radius:calc(24 * var(--u));scroll-snap-align:start;font-size:calc(16 * var(--u));line-height:calc(19 * var(--u))}
@@ -197,7 +200,7 @@
   .hoji .pg-h h2 em{color:#E7C79B}
   .hoji .pg-h p{color:#D9C8AE}
   .hwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:calc(48 * var(--u));align-items:center}
-  .hwrap img{width:min(100%,calc(420 * var(--u)));justify-self:center;filter:drop-shadow(0 calc(30 * var(--u)) calc(40 * var(--u)) rgba(0,0,0,.45))}
+  .hwrap img{height:auto;width:min(100%,calc(420 * var(--u)));justify-self:center;filter:drop-shadow(0 calc(30 * var(--u)) calc(40 * var(--u)) rgba(0,0,0,.45))}
   .roasts{display:flex;gap:calc(14 * var(--u));margin-bottom:calc(30 * var(--u))}
   .roast{flex:1;padding:calc(22 * var(--u));border-radius:calc(24 * var(--u));background:rgba(243,232,214,.08);box-shadow:inset 0 0 0 1px rgba(243,232,214,.18)}
   .roast b{display:block;font:400 calc(40 * var(--u))/1 var(--serif);color:#E7C79B;margin-top:calc(8 * var(--u))}
@@ -230,7 +233,7 @@
 
   /* birthday */
   .bday{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:calc(56 * var(--u));align-items:center}
-  .bday img{width:100%;max-height:78svh;aspect-ratio:4/5;object-fit:cover;border-radius:calc(32 * var(--u));justify-self:center}
+  .bday img{height:auto;width:100%;max-height:78svh;aspect-ratio:4/5;object-fit:cover;border-radius:calc(32 * var(--u));justify-self:center}
   .bday h2{font:400 calc(84 * var(--u))/.9 var(--serif);margin-bottom:calc(22 * var(--u))}
   .bday h2 em{color:var(--green)}
   .bday p{color:#56684F;max-width:calc(420 * var(--u))}
@@ -700,6 +703,11 @@ document.addEventListener('click', function (e) {
     c.addEventListener("focus", () => setActive(i));
     c.addEventListener("blur", () => setActive(null));
   });
+
+  // ---------- header gets a background once the scroll scene is over
+  const sceneEl = $("[data-scene=scene]");
+  const solid = () => head.classList.toggle("solid", sceneEl.getBoundingClientRect().bottom < innerHeight * .5);
+  addEventListener("scroll", solid, { passive: true }); solid();
 
   // ---------- menu: tap a drink to make it wiggle (fun on phones)
   $$(".mi").forEach(m => m.addEventListener("click", () => { m.classList.remove("pop"); void m.offsetWidth; m.classList.add("pop"); }));
