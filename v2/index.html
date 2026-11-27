@@ -335,8 +335,7 @@ document.addEventListener('click', function (e) {
   </div>
   </section>
 
-  <section class="hoji swirl" data-grain id="hojicha" aria-labelledby="hoji-title">
-    <video class="swirl-bg" muted loop playsinline preload="none" aria-hidden="true" poster="../assets/swirl-hoji-poster.webp" data-d="../assets/swirl-hoji-d.mp4" data-m="../assets/swirl-hoji-m.mp4"></video><div class="swirl-wash" aria-hidden="true"></div>
+  <section class="hoji swirl" data-caustics="hoji" id="hojicha" aria-labelledby="hoji-title">
     <h2 id="hoji-title" class="rise">hojicha</h2>
     <div class="callouts">
       <p class="roast l"><span>medium roast<br>230</span><i class="line" aria-hidden="true"></i></p>
@@ -394,8 +393,7 @@ document.addEventListener('click', function (e) {
     </div>
   </section>
 
-  <section class="close swirl" aria-labelledby="close-title">
-    <video class="swirl-bg" muted loop playsinline preload="none" aria-hidden="true" poster="../assets/swirl-poster.webp" data-d="../assets/swirl-d.mp4" data-m="../assets/swirl-m.mp4"></video><div class="swirl-wash" aria-hidden="true"></div>
+  <section class="close swirl" data-caustics="cream" aria-labelledby="close-title">
     <h2 id="close-title" class="rise">See you,<i>matcha people</i></h2>
     <p>Ask where we're whisking next, or anything about the menu.</p>
     <div class="acts">
@@ -441,7 +439,6 @@ document.addEventListener('click', function (e) {
 
 <script src="../assets/site.js" defer></script>
 <script src="../assets/seq.js"></script>
-<script src="../assets/swirl.js" defer></script>
 <script src="../assets/caustics.js" defer></script>
 <script>
 (() => {

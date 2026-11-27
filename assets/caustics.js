@@ -22,7 +22,8 @@ void main(){
     green: ["#236430", "#9ED485", .3],
     deep:  ["#173F20", "#7FBF68", .32],
     cream: ["#ECE9D3", "#9CC47E", .42],
-    paper: ["#F5F3E6", "#A9CC8C", .4]
+    paper: ["#F5F3E6", "#A9CC8C", .4],
+    hoji:  ["#F3EDE0", "#C9A57A", .45]   // warm hojicha tan
   };
   const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255);
   document.querySelectorAll("[data-caustics]").forEach(sec => {
